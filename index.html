@@ -1,9 +1,9 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hindi Letter Generator with Speech Recognition</title>
+    <title>Hindi Letter Generator with Levels and Pause Feature</title>
     <style>
         body {
             display: flex;
@@ -38,20 +38,11 @@
             padding: 10px 20px;
             font-size: 1.2rem;
         }
-        #pauseButton, #resetButton {
+        #pauseButton {
             position: absolute;
             top: 10px;
             left: 10px;
-            margin-right: 10px;
             font-size: 1.2rem;
-        }
-        #resetButton {
-            left: 130px;
-        }
-        #feedback {
-            margin-top: 20px;
-            font-size: 1.5rem;
-            color: green;
         }
     </style>
 </head>
@@ -64,10 +55,9 @@
     </div>
 
     <div id="level">Level 1</div>
+    
+    <button id="resetButton">Reset Average</button>
     <button id="pauseButton">Pause</button>
-    <button id="resetButton">Reset</button>
-
-    <div id="feedback"></div>
 
     <script>
         const vowels = ['अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ए', 'ऐ', 'ओ', 'औ'];
@@ -81,40 +71,9 @@
         let startTime, timeSpent = 0, totalLetters = 0, totalTime = 0, levelLetterCount = 0;
         let isPaused = false;
         let lastLetter = '';
-        let recognition; // SpeechRecognition instance
 
         const levelThreshold = 20; // Letters per level before promotion check
         const promotionTime = 0.5; // Time threshold to promote to next level
-
-        // Initialize speech recognition
-        function initializeSpeechRecognition() {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            recognition = new SpeechRecognition();
-            recognition.lang = 'hi-IN'; // Set language to Hindi
-
-            recognition.onresult = function(event) {
-                const spokenText = event.results[0][0].transcript.trim();
-                checkSpokenLetter(spokenText);
-            };
-
-            recognition.onend = function() {
-                if (!isPaused) {
-                    recognition.start(); // Restart recognition automatically
-                }
-            };
-        }
-
-        function checkSpokenLetter(spokenText) {
-            const feedbackElement = document.getElementById('feedback');
-            if (spokenText === lastLetter) {
-                feedbackElement.textContent = 'Correct!';
-                feedbackElement.style.color = 'green';
-                displayRandomLetter();
-            } else {
-                feedbackElement.textContent = `You said: ${spokenText}, try again!`;
-                feedbackElement.style.color = 'red';
-            }
-        }
 
         function getRandomHindiLetter() {
             if (currentLevel === 1) {
@@ -195,53 +154,40 @@
             }
         }
 
-        // Pause logic using the Escape key
+        // Pause logic
         function togglePause() {
             isPaused = !isPaused;
-            const feedbackElement = document.getElementById('feedback');
-            feedbackElement.textContent = '';
             if (isPaused) {
                 document.getElementById('letter').textContent = '';
                 document.getElementById('pauseButton').textContent = 'Unpause';
-                recognition.stop();
             } else {
                 document.getElementById('letter').textContent = lastLetter;
                 document.getElementById('pauseButton').textContent = 'Pause';
                 startTime = new Date(); // Resume the timer
-                recognition.start(); // Resume speech recognition
             }
         }
 
-        // Use Escape to pause/unpause
+        // Add space bar toggle for pause/unpause
         document.body.addEventListener('keydown', function (event) {
-            if (event.code === 'Escape') {
+            if (event.code === 'Space') {
+                event.preventDefault(); // Prevent default space bar behavior (scrolling)
                 togglePause();
-            } else if (event.code === 'Space' && !isPaused) {
-                displayRandomLetter();
-            } else if (event.code === 'Space' && isPaused) {
-                togglePause(); // If paused, unpause before moving to the next letter
-                displayRandomLetter();
             }
         });
 
         document.getElementById('pauseButton').addEventListener('click', togglePause);
 
-        // Reset functionality: resets stats and takes user back to level 1
+        document.body.addEventListener('click', displayRandomLetter);
+
         document.getElementById('resetButton').addEventListener('click', () => {
             totalTime = 0;
             totalLetters = 0;
             levelLetterCount = 0;
-            currentLevel = 1;
             document.getElementById('averageTime').textContent = '0.00';
-            document.getElementById('level').textContent = 'Level 1';
-            document.getElementById('targetTime').textContent = '0.50';
-            changeBackground(); // Change background back to the first level
-            recognition.start(); // Start speech recognition after reset
         });
 
         // Start the timer for the initial run
         startTimer();
-        initializeSpeechRecognition(); // Initialize speech recognition when the page loads
 
         function startTimer() {
             startTime = new Date();
