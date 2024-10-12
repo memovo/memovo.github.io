@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hindi Letter Generator with Levels and Pause Feature</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            user-select: none;
+            transition: background-color 0.5s;
+        }
+        #letter {
+            font-size: 8rem;
+            color: #333;
+            text-align: center;
+        }
+        #stats {
+            margin-top: 20px;
+            text-align: center;
+        }
+        #level {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+        }
+        #pauseButton {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="letter">अ</div>
+
+    <div id="stats">
+        <p>Time spent guessing: <span id="timer">0.00</span> seconds</p>
+        <p>Average time per letter: <span id="averageTime">0.00</span> seconds | Target: <span id="targetTime">0.50</span> seconds</p>
+    </div>
+
+    <div id="level">Level 1</div>
+    
+    <button id="resetButton">Reset Average</button>
+    <button id="pauseButton">Pause</button>
+
+    <script>
+        const vowels = ['अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ए', 'ऐ', 'ओ', 'औ'];
+        const consonants = ['क', 'ख', 'ग', 'घ', 'च', 'छ', 'ज', 'झ', 'ट', 'ठ', 'ड', 'ढ', 'ण', 'त', 'थ', 'द', 'ध', 'न', 'प', 'फ', 'ब', 'भ', 'म', 'य', 'र', 'ल', 'व', 'श', 'ष', 'स', 'ह'];
+        const vowelMatras = ['', 'ा', 'ि', 'ी', 'ु', 'ू', 'े', 'ै', 'ो', 'ौ'];
+        const conjuncts = [
+            'त्र', 'प्र', 'ग्र', 'क्र', 'ब्र', 'ध्र', 'श्र', 'क्ष', 'ज्ञ', 'द्व', 'स्व', 'स्त्र', 'श्व', 'त्म', 'न्य', 'द्य', 'ज्ञ्य', 'ह्र', 'स्र', 'त्व', 'थ्र', 'द्र', 'व्र', 'स्म'
+        ];
+
+        let currentLevel = 1;
+        let startTime, timeSpent = 0, totalLetters = 0, totalTime = 0, levelLetterCount = 0;
+        let isPaused = false;
+        let lastLetter = '';
+
+        const levelThreshold = 20; // Letters per level before promotion check
+        const promotionTime = 0.5; // Time threshold to promote to next level
+
+        function getRandomHindiLetter() {
+            if (currentLevel === 1) {
+                const randomVowel = vowels[Math.floor(Math.random() * vowels.length)];
+                const randomConsonant = consonants[Math.floor(Math.random() * consonants.length)];
+                return Math.random() > 0.5 ? randomVowel : randomConsonant;
+            } else if (currentLevel === 2) {
+                const randomConsonant = consonants[Math.floor(Math.random() * consonants.length)];
+                const randomVowelIndex = Math.floor(Math.random() * vowels.length);
+                const matra = vowelMatras[randomVowelIndex];
+                return Math.random() > 0.5 ? randomConsonant + matra : vowels[randomVowelIndex];
+            } else if (currentLevel === 3) {
+                const randomConsonant = consonants[Math.floor(Math.random() * consonants.length)];
+                const randomVowelIndex = Math.floor(Math.random() * vowels.length);
+                const matra = vowelMatras[randomVowelIndex];
+                if (Math.random() > 0.7) {
+                    const randomConjunct = conjuncts[Math.floor(Math.random() * conjuncts.length)];
+                    return randomConjunct + matra;
+                } else {
+                    return randomConsonant + matra;
+                }
+            }
+        }
+
+        function displayRandomLetter() {
+            if (!isPaused) {
+                lastLetter = getRandomHindiLetter();
+                document.getElementById('letter').textContent = lastLetter;
+                resetTimer();
+                startTime = new Date();
+            }
+        }
+
+        function resetTimer() {
+            const now = new Date();
+            if (startTime && !isPaused) {
+                timeSpent = (now - startTime) / 1000;
+                totalTime += timeSpent;
+                totalLetters++;
+                levelLetterCount++;
+                updateAverageTime();
+                checkPromotion();
+            }
+            document.getElementById('timer').textContent = '0.00';
+        }
+
+        function updateAverageTime() {
+            const averageTime = totalTime / totalLetters;
+            document.getElementById('averageTime').textContent = averageTime.toFixed(2);
+        }
+
+        function checkPromotion() {
+            const averageTime = totalTime / totalLetters;
+            if (levelLetterCount >= levelThreshold && averageTime < promotionTime) {
+                promoteLevel();
+            }
+        }
+
+        function promoteLevel() {
+            if (currentLevel < 3) {
+                currentLevel++;
+                levelLetterCount = 0;
+                totalLetters = 0;
+                totalTime = 0;
+                document.getElementById('level').textContent = `Level ${currentLevel}`;
+                document.getElementById('targetTime').textContent = currentLevel < 3 ? '0.50' : 'N/A';
+                changeBackground();
+            }
+        }
+
+        function changeBackground() {
+            if (currentLevel === 2) {
+                document.body.style.backgroundColor = '#d1f0f0';
+            } else if (currentLevel === 3) {
+                document.body.style.backgroundColor = '#f0d1d1';
+            } else {
+                document.body.style.backgroundColor = '#f0f0f0';
+            }
+        }
+
+        // Pause logic using the Escape key
+        function togglePause() {
+            isPaused = !isPaused;
+            if (isPaused) {
+                document.getElementById('letter').textContent = '';
+                document.getElementById('pauseButton').textContent = 'Unpause';
+            } else {
+                document.getElementById('letter').textContent = lastLetter;
+                document.getElementById('pauseButton').textContent = 'Pause';
+                startTime = new Date(); // Resume the timer
+            }
+        }
+
+        // Use Escape to pause/unpause
+        document.body.addEventListener('keydown', function (event) {
+            if (event.code === 'Escape') {
+                togglePause();
+            } else if (event.code === 'Space' && !isPaused) {
+                displayRandomLetter();
+            } else if (event.code === 'Space' && isPaused) {
+                togglePause(); // If paused, unpause before moving to the next letter
+                displayRandomLetter();
+            }
+        });
+
+        document.getElementById('pauseButton').addEventListener('click', togglePause);
+
+        document.body.addEventListener('click', displayRandomLetter);
+
+        document.getElementById('resetButton').addEventListener('click', () => {
+            totalTime = 0;
+            totalLetters = 0;
+            levelLetterCount = 0;
+            document.getElementById('averageTime').textContent = '0.00';
+        });
+
+        // Start the timer for the initial run
+        startTimer();
+
+        function startTimer() {
+            startTime = new Date();
+            setInterval(() => {
+                if (startTime && !isPaused) {
+                    const now = new Date();
+                    const timeElapsed = ((now - startTime) / 1000).toFixed(2);
+                    document.getElementById('timer').textContent = timeElapsed;
+                }
+            }, 100);
+        }
+    </script>
+</body>
+</html>
