@@ -350,6 +350,27 @@
         const levelThreshold = 20;
         const promotionTime = 0.5;
 
+        // === Level persistence helpers ===
+        function getSavedLevel(language) {
+            const saved = parseInt(localStorage.getItem(`level_${language}`), 10);
+            return (saved && saved >= 1 && saved <= 3) ? saved : 1;
+        }
+
+        function saveLevel(language, level) {
+            localStorage.setItem(`level_${language}`, level);
+        }
+
+        function updateLevelDisplay() {
+            const levelElem = document.getElementById('level');
+            if (levelElem) {
+                levelElem.textContent = `Level ${currentLevel}`;
+            }
+            const targetElem = document.getElementById('targetTime');
+            if (targetElem) {
+                targetElem.textContent = currentLevel < 3 ? '0.50' : 'N/A';
+            }
+        }
+
         function getRandomLetter() {
             if (currentLevel === 1) {
                 if (currentLanguage === 'hindi') {
@@ -548,6 +569,9 @@
                 document.getElementById('level').textContent = `Level ${currentLevel}`;
                 document.getElementById('targetTime').textContent = currentLevel < 3 ? '0.50' : 'N/A';
                 changeBackground();
+                // Persist the new level for this language
+                saveLevel(currentLanguage, currentLevel);
+                updateLevelDisplay();
             }
         }
 
@@ -623,6 +647,11 @@
         // Modify the language selector event listener
         document.getElementById('languageSelector').addEventListener('change', function(e) {
             currentLanguage = e.target.value;
+            // Load saved level for the newly selected language
+            currentLevel = getSavedLevel(currentLanguage);
+            levelLetterCount = 0;
+            updateLevelDisplay();
+            changeBackground();
             correctCount = 0;
             incorrectCount = 0;
             document.getElementById('correctCount').textContent = '0';
@@ -681,6 +710,11 @@
 
         // Load the username when the page is ready
         loadUsername();
+
+        // Initialize level based on saved progress
+        currentLevel = getSavedLevel(currentLanguage);
+        updateLevelDisplay();
+        changeBackground();
 
         // Start the game
         displayRandomLetter();
