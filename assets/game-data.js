@@ -32,6 +32,16 @@ const punjabiVowelMatraTrans = ['', 'aa', 'i', 'ii', 'u', 'uu', 'e', 'ai', 'o', 
 const punjabiConjuncts = ['ਕ੍ਰ', 'ਗ੍ਰ', 'ਜ੍ਞ', 'ਟ੍ਰ', 'ਡ੍ਰ', 'ਤ੍ਰ', 'ਦ੍ਰ', 'ਨ੍ਰ', 'ਪ੍ਰ', 'ਬ੍ਰ', 'ਮ੍ਰ', 'ਯ੍ਰ', 'ਲ੍ਰ', 'ਵ੍ਰ', 'ਸ੍ਰ', 'ਹ੍ਰ', 'ਕ੍ਵ', 'ਗ੍ਵ', 'ਜ੍ਵ', 'ਟ੍ਵ', 'ਡ੍ਵ', 'ਤ੍ਵ', 'ਦ੍ਵ', 'ਨ੍ਵ', 'ਪ੍ਵ', 'ਬ੍ਵ', 'ਮ੍ਵ', 'ਯ੍ਵ', 'ਲ੍ਵ', 'ਵ੍ਵ', 'ਸ੍ਵ', 'ਹ੍ਵ'];
 const punjabiConjunctTrans = ['kra', 'gra', 'gya', 'tra', 'dra', 'tra', 'dra', 'nra', 'pra', 'bra', 'mra', 'yra', 'lra', 'vra', 'sra', 'hra', 'kva', 'gva', 'jva', 'tva', 'dva', 'tva', 'dva', 'nva', 'pva', 'bva', 'mva', 'yva', 'lva', 'vva', 'sva', 'hva'];
 
+// Malayalam characters with their English transliterations
+const malayalamVowels = ['അ', 'ആ', 'ഇ', 'ഈ', 'ഉ', 'ഊ', 'ഋ', 'ൠ', 'ഌ', 'ൡ', 'എ', 'ഏ', 'ഐ', 'ഒ', 'ഓ', 'ഔ'];
+const malayalamVowelTrans = ['a', 'aa', 'i', 'ii', 'u', 'uu', 'r', 'rr', 'l', 'll', 'e', 'ee', 'ai', 'o', 'oo', 'au'];
+const malayalamConsonants = ['ക', 'ഖ', 'ഗ', 'ഘ', 'ങ', 'ച', 'ഛ', 'ജ', 'ഝ', 'ഞ', 'ട', 'ഠ', 'ഡ', 'ഢ', 'ണ', 'ത', 'ഥ', 'ദ', 'ധ', 'ന', 'പ', 'ഫ', 'ബ', 'ഭ', 'മ', 'യ', 'ര', 'ല', 'വ', 'ശ', 'ഷ', 'സ', 'ഹ', 'ള', 'ഴ', 'റ'];
+const malayalamConsonantTrans = ['ka', 'kha', 'ga', 'gha', 'nga', 'cha', 'chha', 'ja', 'jha', 'nya', 'ta', 'tha', 'da', 'dha', 'na', 'ta', 'tha', 'da', 'dha', 'na', 'pa', 'pha', 'ba', 'bha', 'ma', 'ya', 'ra', 'la', 'va', 'sha', 'sha', 'sa', 'ha', 'la', 'zha', 'ra'];
+const malayalamVowelMatras = ['', 'ാ', 'ി', 'ീ', 'ു', 'ൂ', 'ൃ', 'ൄ', 'ൢ', 'ൣ', 'െ', 'േ', 'ൈ', 'ൊ', 'ോ', 'ൌ'];
+const malayalamVowelMatraTrans = ['', 'aa', 'i', 'ii', 'u', 'uu', 'r', 'rr', 'l', 'll', 'e', 'ee', 'ai', 'o', 'oo', 'au'];
+const malayalamConjuncts = ['ക്ക', 'ക്ഷ', 'ഗ്ഗ', 'ഗ്ന', 'ഗ്മ', 'ഗ്ന', 'ഗ്ന', 'ഗ്ന', 'ഗ്ന', 'ഗ്ന', 'ഗ്ന', 'ഗ്ന', 'ഗ്ന', 'ഗ്ന', 'ഗ്ന', 'ഗ്ന', 'ഗ്ന', 'ഗ്ന', 'ഗ്ന', 'ഗ്ന'];
+const malayalamConjunctTrans = ['kka', 'ksha', 'gga', 'gna', 'gma', 'gna', 'gna', 'gna', 'gna', 'gna', 'gna', 'gna', 'gna', 'gna', 'gna', 'gna', 'gna', 'gna', 'gna', 'gna'];
+
 /* =========================
    Game State Variables
    ========================= */
