@@ -3,107 +3,494 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hindi Letter Generator with Levels and Pause Feature</title>
+    <title>Learn Indian Scripts - Hindi, Gujarati & Punjabi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #4a90e2;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --background-color: #f8f9fa;
+            --card-background: #ffffff;
+            --text-color: #2c3e50;
+            --border-radius: 12px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
         body {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
-            user-select: none;
-            transition: background-color 0.5s;
+            background-color: var(--background-color);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            transition: var(--transition);
+            padding: 20px;
         }
+
+        .container {
+            background-color: var(--card-background);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            width: 90%;
+            max-width: 800px;
+            position: relative;
+        }
+
         #letter {
             font-size: 8rem;
-            color: #333;
+            color: var(--text-color);
             text-align: center;
+            margin: 2rem 0;
+            transition: all 0.15s ease;
+            animation: fadeIn 0.3s ease;
+            font-weight: 600;
         }
+
         #stats {
-            margin-top: 20px;
+            background-color: var(--background-color);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin: 1rem 0;
             text-align: center;
         }
+
         #level {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 1rem;
+            right: 1rem;
             font-size: 1.2rem;
-            font-weight: bold;
+            font-weight: 600;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
         }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
         button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 1.2rem;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border: none;
+            border-radius: var(--border-radius);
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
         }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
         #pauseButton {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 1rem;
+            left: 1rem;
+        }
+
+        #languageSelector {
+            position: absolute;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            background-color: white;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        #optionsContainer {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .option-button {
+            font-size: 1.5rem;
+            padding: 1rem 2rem;
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            min-width: 120px;
+            box-shadow: var(--shadow);
+            color: var(--text-color);
+            font-weight: 500;
+            text-transform: lowercase;
+            letter-spacing: 0.5px;
+        }
+
+        .option-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .option-button.correct {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+            color: white;
+            transform: scale(1.01);
+        }
+
+        .option-button.incorrect {
+            background-color: var(--error-color);
+            border-color: var(--error-color);
+            color: white;
+        }
+
+        #feedback {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 1rem 0;
+            min-height: 2em;
+            transition: all 0.15s ease;
+            padding: 1rem;
+            background-color: var(--background-color);
+            border-radius: var(--border-radius);
+        }
+
+        .correct-text {
+            color: var(--success-color);
+            background-color: rgba(46, 204, 113, 0.1);
+        }
+
+        .incorrect-text {
+            color: var(--error-color);
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+
+        #score {
+            text-align: center;
             font-size: 1.2rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            background-color: var(--background-color);
+            border-radius: var(--border-radius);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem;
+            }
+
+            #letter {
+                font-size: 6rem;
+            }
+
+            .option-button {
+                font-size: 1.2rem;
+                padding: 0.8rem 1.5rem;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
-    <div id="letter">अ</div>
+    <div class="container">
+        <div id="level">Level 1</div>
+        <select id="languageSelector">
+            <option value="hindi">Hindi</option>
+            <option value="gujarati">Gujarati</option>
+            <option value="punjabi">Punjabi</option>
+        </select>
+        <button id="pauseButton">Pause</button>
 
-    <div id="stats">
-        <p>Time spent guessing: <span id="timer">0.00</span> seconds</p>
-        <p>Average time per letter: <span id="averageTime">0.00</span> seconds | Target: <span id="targetTime">0.50</span> seconds</p>
+        <div id="letter">अ</div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 0%"></div>
+        </div>
+
+        <div id="stats">
+            <p>Time spent guessing: <span id="timer">0.00</span> seconds</p>
+            <p>Average time per letter: <span id="averageTime">0.00</span> seconds | Target: <span id="targetTime">0.50</span> seconds</p>
+        </div>
+
+        <div id="optionsContainer">
+            <button class="option-button" data-index="0"></button>
+            <button class="option-button" data-index="1"></button>
+            <button class="option-button" data-index="2"></button>
+        </div>
+
+        <div id="feedback"></div>
+        <div id="score">Score: <span id="correctCount">0</span> correct, <span id="incorrectCount">0</span> incorrect</div>
+
+        <div class="controls">
+            <button id="resetButton">Reset Progress</button>
+        </div>
     </div>
 
-    <div id="level">Level 1</div>
-    
-    <button id="resetButton">Reset Average</button>
-    <button id="pauseButton">Pause</button>
-
     <script>
-        const vowels = ['अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ए', 'ऐ', 'ओ', 'औ'];
-        const consonants = ['क', 'ख', 'ग', 'घ', 'च', 'छ', 'ज', 'झ', 'ट', 'ठ', 'ड', 'ढ', 'ण', 'त', 'थ', 'द', 'ध', 'न', 'प', 'फ', 'ब', 'भ', 'म', 'य', 'र', 'ल', 'व', 'श', 'ष', 'स', 'ह'];
-        const vowelMatras = ['', 'ा', 'ि', 'ी', 'ु', 'ू', 'े', 'ै', 'ो', 'ौ'];
-        const conjuncts = [
-            'त्र', 'प्र', 'ग्र', 'क्र', 'ब्र', 'ध्र', 'श्र', 'क्ष', 'ज्ञ', 'द्व', 'स्व', 'स्त्र', 'श्व', 'त्म', 'न्य', 'द्य', 'ज्ञ्य', 'ह्र', 'स्र', 'त्व', 'थ्र', 'द्र', 'व्र', 'स्म'
-        ];
+        // Hindi characters with their English transliterations
+        const hindiVowels = ['अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ए', 'ऐ', 'ओ', 'औ'];
+        const hindiVowelTrans = ['a', 'aa', 'i', 'ii', 'u', 'uu', 'e', 'ai', 'o', 'au'];
+        const hindiConsonants = ['क', 'ख', 'ग', 'घ', 'च', 'छ', 'ज', 'झ', 'ट', 'ठ', 'ड', 'ढ', 'ण', 'त', 'थ', 'द', 'ध', 'न', 'प', 'फ', 'ब', 'भ', 'म', 'य', 'र', 'ल', 'व', 'श', 'ष', 'स', 'ह'];
+        const hindiConsonantTrans = ['ka', 'kha', 'ga', 'gha', 'cha', 'chha', 'ja', 'jha', 'ta', 'tha', 'da', 'dha', 'na', 'ta', 'tha', 'da', 'dha', 'na', 'pa', 'pha', 'ba', 'bha', 'ma', 'ya', 'ra', 'la', 'va', 'sha', 'sha', 'sa', 'ha'];
+        const hindiVowelMatras = ['', 'ा', 'ि', 'ी', 'ु', 'ू', 'े', 'ै', 'ो', 'ौ'];
+        const hindiVowelMatraTrans = ['', 'aa', 'i', 'ii', 'u', 'uu', 'e', 'ai', 'o', 'au'];
+        const hindiConjuncts = ['त्र', 'प्र', 'ग्र', 'क्र', 'ब्र', 'ध्र', 'श्र', 'क्ष', 'ज्ञ', 'द्व', 'स्व', 'स्त्र', 'श्व', 'त्म', 'न्य', 'द्य', 'ज्ञ्य', 'ह्र', 'स्र', 'त्व', 'थ्र', 'द्र', 'व्र', 'स्म'];
+        const hindiConjunctTrans = ['tra', 'pra', 'gra', 'kra', 'bra', 'dhra', 'shra', 'ksha', 'gya', 'dva', 'sva', 'stra', 'shva', 'tma', 'nya', 'dya', 'gnya', 'hra', 'sra', 'tva', 'thra', 'dra', 'vra', 'sma'];
+
+        // Gujarati characters with their English transliterations
+        const gujaratiVowels = ['અ', 'આ', 'ઇ', 'ઈ', 'ઉ', 'ઊ', 'એ', 'ઐ', 'ઓ', 'ઔ'];
+        const gujaratiVowelTrans = ['a', 'aa', 'i', 'ii', 'u', 'uu', 'e', 'ai', 'o', 'au'];
+        const gujaratiConsonants = ['ક', 'ખ', 'ગ', 'ઘ', 'ઙ', 'ચ', 'છ', 'જ', 'ઝ', 'ઞ', 'ટ', 'ઠ', 'ડ', 'ઢ', 'ણ', 'ત', 'થ', 'દ', 'ધ', 'ન', 'પ', 'ફ', 'બ', 'ભ', 'મ', 'ય', 'ર', 'લ', 'વ', 'શ', 'ષ', 'સ', 'હ'];
+        const gujaratiConsonantTrans = ['ka', 'kha', 'ga', 'gha', 'nga', 'cha', 'chha', 'ja', 'jha', 'nya', 'ta', 'tha', 'da', 'dha', 'na', 'ta', 'tha', 'da', 'dha', 'na', 'pa', 'pha', 'ba', 'bha', 'ma', 'ya', 'ra', 'la', 'va', 'sha', 'sha', 'sa', 'ha'];
+        const gujaratiVowelMatras = ['', 'ા', 'િ', 'ી', 'ુ', 'ૂ', 'ે', 'ૈ', 'ો', 'ૌ'];
+        const gujaratiVowelMatraTrans = ['', 'aa', 'i', 'ii', 'u', 'uu', 'e', 'ai', 'o', 'au'];
+        const gujaratiConjuncts = ['ક્ષ', 'ત્ર', 'જ્ઞ', 'શ્ર', 'દ્વ', 'દ્ધ', 'દ્મ', 'શ્વ', 'સ્વ', 'સ્ત્ર', 'શ્ચ', 'શ્વ', 'શ્મ', 'શ્ન', 'શ્વ', 'શ્વ', 'શ્વ', 'શ્વ', 'શ્વ', 'શ્વ'];
+        const gujaratiConjunctTrans = ['ksha', 'tra', 'gya', 'shra', 'dva', 'ddha', 'dma', 'shva', 'sva', 'stra', 'shcha', 'shva', 'shma', 'shna', 'shva', 'shva', 'shva', 'shva', 'shva', 'shva'];
+
+        // Punjabi (Gurmukhi) characters with their English transliterations
+        const punjabiVowels = ['ਅ', 'ਆ', 'ਇ', 'ਈ', 'ਉ', 'ਊ', 'ਏ', 'ਐ', 'ਓ', 'ਔ'];
+        const punjabiVowelTrans = ['a', 'aa', 'i', 'ii', 'u', 'uu', 'e', 'ai', 'o', 'au'];
+        const punjabiConsonants = ['ਕ', 'ਖ', 'ਗ', 'ਘ', 'ਙ', 'ਚ', 'ਛ', 'ਜ', 'ਝ', 'ਞ', 'ਟ', 'ਠ', 'ਡ', 'ਢ', 'ਣ', 'ਤ', 'ਥ', 'ਦ', 'ਧ', 'ਨ', 'ਪ', 'ਫ', 'ਬ', 'ਭ', 'ਮ', 'ਯ', 'ਰ', 'ਲ', 'ਵ', 'ਸ', 'ਹ', 'ੜ'];
+        const punjabiConsonantTrans = ['ka', 'kha', 'ga', 'gha', 'nga', 'cha', 'chha', 'ja', 'jha', 'nya', 'ta', 'tha', 'da', 'dha', 'na', 'ta', 'tha', 'da', 'dha', 'na', 'pa', 'pha', 'ba', 'bha', 'ma', 'ya', 'ra', 'la', 'va', 'sa', 'ha', 'rra'];
+        const punjabiVowelMatras = ['', 'ਾ', 'ਿ', 'ੀ', 'ੁ', 'ੂ', 'ੇ', 'ੈ', 'ੋ', 'ੌ'];
+        const punjabiVowelMatraTrans = ['', 'aa', 'i', 'ii', 'u', 'uu', 'e', 'ai', 'o', 'au'];
+        const punjabiConjuncts = ['ਕ੍ਰ', 'ਗ੍ਰ', 'ਜ੍ਞ', 'ਟ੍ਰ', 'ਡ੍ਰ', 'ਤ੍ਰ', 'ਦ੍ਰ', 'ਨ੍ਰ', 'ਪ੍ਰ', 'ਬ੍ਰ', 'ਮ੍ਰ', 'ਯ੍ਰ', 'ਲ੍ਰ', 'ਵ੍ਰ', 'ਸ੍ਰ', 'ਹ੍ਰ', 'ਕ੍ਵ', 'ਗ੍ਵ', 'ਜ੍ਵ', 'ਟ੍ਵ', 'ਡ੍ਵ', 'ਤ੍ਵ', 'ਦ੍ਵ', 'ਨ੍ਵ', 'ਪ੍ਵ', 'ਬ੍ਵ', 'ਮ੍ਵ', 'ਯ੍ਵ', 'ਲ੍ਵ', 'ਵ੍ਵ', 'ਸ੍ਵ', 'ਹ੍ਵ'];
+        const punjabiConjunctTrans = ['kra', 'gra', 'gya', 'tra', 'dra', 'tra', 'dra', 'nra', 'pra', 'bra', 'mra', 'yra', 'lra', 'vra', 'sra', 'hra', 'kva', 'gva', 'jva', 'tva', 'dva', 'tva', 'dva', 'nva', 'pva', 'bva', 'mva', 'yva', 'lva', 'vva', 'sva', 'hva'];
 
         let currentLevel = 1;
         let startTime, timeSpent = 0, totalLetters = 0, totalTime = 0, levelLetterCount = 0;
         let isPaused = false;
         let lastLetter = '';
+        let currentLanguage = 'hindi';
+        let correctCount = 0;
+        let incorrectCount = 0;
+        let currentOptions = [];
+        let lastLetterTrans = '';
 
-        const levelThreshold = 20; // Letters per level before promotion check
-        const promotionTime = 0.5; // Time threshold to promote to next level
+        const levelThreshold = 20;
+        const promotionTime = 0.5;
 
-        function getRandomHindiLetter() {
+        function getRandomLetter() {
             if (currentLevel === 1) {
-                const randomVowel = vowels[Math.floor(Math.random() * vowels.length)];
-                const randomConsonant = consonants[Math.floor(Math.random() * consonants.length)];
-                return Math.random() > 0.5 ? randomVowel : randomConsonant;
+                if (currentLanguage === 'hindi') {
+                    const randomVowel = hindiVowels[Math.floor(Math.random() * hindiVowels.length)];
+                    const randomConsonant = hindiConsonants[Math.floor(Math.random() * hindiConsonants.length)];
+                    return Math.random() > 0.5 ? randomVowel : randomConsonant;
+                } else if (currentLanguage === 'gujarati') {
+                    const randomVowel = gujaratiVowels[Math.floor(Math.random() * gujaratiVowels.length)];
+                    const randomConsonant = gujaratiConsonants[Math.floor(Math.random() * gujaratiConsonants.length)];
+                    return Math.random() > 0.5 ? randomVowel : randomConsonant;
+                } else if (currentLanguage === 'punjabi') {
+                    const randomVowel = punjabiVowels[Math.floor(Math.random() * punjabiVowels.length)];
+                    const randomConsonant = punjabiConsonants[Math.floor(Math.random() * punjabiConsonants.length)];
+                    return Math.random() > 0.5 ? randomVowel : randomConsonant;
+                }
             } else if (currentLevel === 2) {
-                const randomConsonant = consonants[Math.floor(Math.random() * consonants.length)];
-                const randomVowelIndex = Math.floor(Math.random() * vowels.length);
-                const matra = vowelMatras[randomVowelIndex];
-                return Math.random() > 0.5 ? randomConsonant + matra : vowels[randomVowelIndex];
+                if (currentLanguage === 'hindi') {
+                    const randomConsonant = hindiConsonants[Math.floor(Math.random() * hindiConsonants.length)];
+                    const randomVowelIndex = Math.floor(Math.random() * hindiVowels.length);
+                    const matra = hindiVowelMatras[randomVowelIndex];
+                    return Math.random() > 0.5 ? randomConsonant + matra : hindiVowels[randomVowelIndex];
+                } else if (currentLanguage === 'gujarati') {
+                    const randomConsonant = gujaratiConsonants[Math.floor(Math.random() * gujaratiConsonants.length)];
+                    const randomVowelIndex = Math.floor(Math.random() * gujaratiVowels.length);
+                    const matra = gujaratiVowelMatras[randomVowelIndex];
+                    return Math.random() > 0.5 ? randomConsonant + matra : gujaratiVowels[randomVowelIndex];
+                } else if (currentLanguage === 'punjabi') {
+                    const randomConsonant = punjabiConsonants[Math.floor(Math.random() * punjabiConsonants.length)];
+                    const randomVowelIndex = Math.floor(Math.random() * punjabiVowels.length);
+                    const matra = punjabiVowelMatras[randomVowelIndex];
+                    return Math.random() > 0.5 ? randomConsonant + matra : punjabiVowels[randomVowelIndex];
+                }
             } else if (currentLevel === 3) {
-                const randomConsonant = consonants[Math.floor(Math.random() * consonants.length)];
-                const randomVowelIndex = Math.floor(Math.random() * vowels.length);
-                const matra = vowelMatras[randomVowelIndex];
-                if (Math.random() > 0.7) {
-                    const randomConjunct = conjuncts[Math.floor(Math.random() * conjuncts.length)];
-                    return randomConjunct + matra;
-                } else {
-                    return randomConsonant + matra;
+                if (currentLanguage === 'hindi') {
+                    const randomConsonant = hindiConsonants[Math.floor(Math.random() * hindiConsonants.length)];
+                    const randomVowelIndex = Math.floor(Math.random() * hindiVowels.length);
+                    const matra = hindiVowelMatras[randomVowelIndex];
+                    if (Math.random() > 0.7) {
+                        const randomConjunct = hindiConjuncts[Math.floor(Math.random() * hindiConjuncts.length)];
+                        return randomConjunct + matra;
+                    } else {
+                        return randomConsonant + matra;
+                    }
+                } else if (currentLanguage === 'gujarati') {
+                    const randomConsonant = gujaratiConsonants[Math.floor(Math.random() * gujaratiConsonants.length)];
+                    const randomVowelIndex = Math.floor(Math.random() * gujaratiVowels.length);
+                    const matra = gujaratiVowelMatras[randomVowelIndex];
+                    if (Math.random() > 0.7) {
+                        const randomConjunct = gujaratiConjuncts[Math.floor(Math.random() * gujaratiConjuncts.length)];
+                        return randomConjunct + matra;
+                    } else {
+                        return randomConsonant + matra;
+                    }
+                } else if (currentLanguage === 'punjabi') {
+                    const randomConsonant = punjabiConsonants[Math.floor(Math.random() * punjabiConsonants.length)];
+                    const randomVowelIndex = Math.floor(Math.random() * punjabiVowels.length);
+                    const matra = punjabiVowelMatras[randomVowelIndex];
+                    if (Math.random() > 0.7) {
+                        const randomConjunct = punjabiConjuncts[Math.floor(Math.random() * punjabiConjuncts.length)];
+                        return randomConjunct + matra;
+                    } else {
+                        return randomConsonant + matra;
+                    }
                 }
             }
         }
 
+        function getTransliteration(letter) {
+            if (currentLanguage === 'hindi') {
+                const vowelIndex = hindiVowels.indexOf(letter);
+                if (vowelIndex !== -1) return hindiVowelTrans[vowelIndex];
+                
+                const consonantIndex = hindiConsonants.indexOf(letter);
+                if (consonantIndex !== -1) return hindiConsonantTrans[consonantIndex];
+                
+                const conjunctIndex = hindiConjuncts.indexOf(letter);
+                if (conjunctIndex !== -1) return hindiConjunctTrans[conjunctIndex];
+            } else if (currentLanguage === 'gujarati') {
+                const vowelIndex = gujaratiVowels.indexOf(letter);
+                if (vowelIndex !== -1) return gujaratiVowelTrans[vowelIndex];
+                
+                const consonantIndex = gujaratiConsonants.indexOf(letter);
+                if (consonantIndex !== -1) return gujaratiConsonantTrans[consonantIndex];
+                
+                const conjunctIndex = gujaratiConjuncts.indexOf(letter);
+                if (conjunctIndex !== -1) return gujaratiConjunctTrans[conjunctIndex];
+            } else if (currentLanguage === 'punjabi') {
+                const vowelIndex = punjabiVowels.indexOf(letter);
+                if (vowelIndex !== -1) return punjabiVowelTrans[vowelIndex];
+                
+                const consonantIndex = punjabiConsonants.indexOf(letter);
+                if (consonantIndex !== -1) return punjabiConsonantTrans[consonantIndex];
+                
+                const conjunctIndex = punjabiConjuncts.indexOf(letter);
+                if (conjunctIndex !== -1) return punjabiConjunctTrans[conjunctIndex];
+            }
+            return '';
+        }
+
+        function getRandomOptions(correctLetter) {
+            const correctTrans = getTransliteration(correctLetter);
+            lastLetterTrans = correctTrans;
+            
+            // Get all possible transliterations
+            let allTrans = [];
+            if (currentLanguage === 'hindi') {
+                allTrans = [...hindiVowelTrans, ...hindiConsonantTrans, ...hindiConjunctTrans];
+            } else if (currentLanguage === 'gujarati') {
+                allTrans = [...gujaratiVowelTrans, ...gujaratiConsonantTrans, ...gujaratiConjunctTrans];
+            } else if (currentLanguage === 'punjabi') {
+                allTrans = [...punjabiVowelTrans, ...punjabiConsonantTrans, ...punjabiConjunctTrans];
+            }
+            
+            // Remove the correct transliteration from the pool
+            const transPool = allTrans.filter(trans => trans !== correctTrans);
+            
+            // Get two random wrong options
+            const wrongOptions = [];
+            while (wrongOptions.length < 2) {
+                const randomIndex = Math.floor(Math.random() * transPool.length);
+                const randomTrans = transPool[randomIndex];
+                if (!wrongOptions.includes(randomTrans)) {
+                    wrongOptions.push(randomTrans);
+                }
+            }
+            
+            // Combine correct and wrong options, then shuffle
+            const options = [correctTrans, ...wrongOptions];
+            return options.sort(() => Math.random() - 0.5);
+        }
+
         function displayRandomLetter() {
             if (!isPaused) {
-                lastLetter = getRandomHindiLetter();
-                document.getElementById('letter').textContent = lastLetter;
+                lastLetter = getRandomLetter();
+                const letterElement = document.getElementById('letter');
+                letterElement.style.opacity = '0';
+                letterElement.style.transform = 'translateY(5px)';
+                
+                setTimeout(() => {
+                    letterElement.textContent = lastLetter;
+                    letterElement.style.opacity = '1';
+                    letterElement.style.transform = 'translateY(0)';
+                }, 50);
+
+                document.getElementById('feedback').textContent = '';
+                document.getElementById('feedback').className = '';
+                
+                const optionButtons = document.querySelectorAll('.option-button');
+                optionButtons.forEach(button => {
+                    button.className = 'option-button';
+                    button.disabled = false;
+                });
+                
+                currentOptions = getRandomOptions(lastLetter);
+                optionButtons.forEach((button, index) => {
+                    button.textContent = currentOptions[index];
+                });
+                
                 resetTimer();
                 startTime = new Date();
+                updateProgressBar();
             }
         }
 
@@ -177,28 +564,72 @@
 
         document.getElementById('pauseButton').addEventListener('click', togglePause);
 
-        document.body.addEventListener('click', displayRandomLetter);
+        function checkAnswer(selectedOption) {
+            const optionButtons = document.querySelectorAll('.option-button');
+            const feedback = document.getElementById('feedback');
+            
+            optionButtons.forEach(button => {
+                button.disabled = true;
+            });
+            
+            if (selectedOption === lastLetterTrans) {
+                feedback.textContent = `Correct! ${lastLetter} is pronounced as "${lastLetterTrans}"`;
+                feedback.className = 'correct-text';
+                correctCount++;
+                optionButtons[currentOptions.indexOf(selectedOption)].classList.add('correct');
+            } else {
+                feedback.textContent = `Incorrect. ${lastLetter} is pronounced as "${lastLetterTrans}"`;
+                feedback.className = 'incorrect-text';
+                incorrectCount++;
+                optionButtons[currentOptions.indexOf(selectedOption)].classList.add('incorrect');
+                optionButtons[currentOptions.indexOf(lastLetterTrans)].classList.add('correct');
+            }
+            
+            document.getElementById('correctCount').textContent = correctCount;
+            document.getElementById('incorrectCount').textContent = incorrectCount;
+            
+            setTimeout(displayRandomLetter, 800);
+        }
 
+        // Add click event listeners to option buttons
+        document.querySelectorAll('.option-button').forEach(button => {
+            button.addEventListener('click', function() {
+                if (!isPaused) {
+                    checkAnswer(this.textContent);
+                }
+            });
+        });
+
+        // Modify the language selector event listener
+        document.getElementById('languageSelector').addEventListener('change', function(e) {
+            currentLanguage = e.target.value;
+            correctCount = 0;
+            incorrectCount = 0;
+            document.getElementById('correctCount').textContent = '0';
+            document.getElementById('incorrectCount').textContent = '0';
+            displayRandomLetter();
+        });
+
+        // Modify the reset button event listener
         document.getElementById('resetButton').addEventListener('click', () => {
             totalTime = 0;
             totalLetters = 0;
             levelLetterCount = 0;
+            correctCount = 0;
+            incorrectCount = 0;
             document.getElementById('averageTime').textContent = '0.00';
+            document.getElementById('correctCount').textContent = '0';
+            document.getElementById('incorrectCount').textContent = '0';
         });
 
-        // Start the timer for the initial run
-        startTimer();
-
-        function startTimer() {
-            startTime = new Date();
-            setInterval(() => {
-                if (startTime && !isPaused) {
-                    const now = new Date();
-                    const timeElapsed = ((now - startTime) / 1000).toFixed(2);
-                    document.getElementById('timer').textContent = timeElapsed;
-                }
-            }, 100);
+        // Add progress bar update
+        function updateProgressBar() {
+            const progress = (levelLetterCount / levelThreshold) * 100;
+            document.querySelector('.progress-fill').style.width = `${progress}%`;
         }
+
+        // Start the game
+        displayRandomLetter();
     </script>
 </body>
 </html>
