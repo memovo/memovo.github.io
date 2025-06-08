@@ -91,5 +91,7 @@ loadUsername();
 currentLevel = getSavedLevel(currentLanguage);
 updateLevelDisplay();
 changeBackground();
+initKeyboardShortcuts();
+addKeyboardHints();
 
 displayRandomLetter();

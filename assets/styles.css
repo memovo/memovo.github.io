@@ -132,6 +132,26 @@ button:hover {
     font-weight: 500;
     text-transform: lowercase;
     letter-spacing: 0.5px;
+    position: relative;
+}
+
+.option-button::before {
+    content: attr(data-keyboard-hint);
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 600;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
 }
 
 .option-button:hover {
