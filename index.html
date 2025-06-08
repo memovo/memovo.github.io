@@ -267,6 +267,183 @@
                 flex-direction: column;
             }
         }
+
+        /* Reference Guide Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: var(--card-background);
+            margin: 2rem auto;
+            padding: 2rem;
+            width: 90%;
+            max-width: 800px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+            background: none;
+            border: none;
+            padding: 0.5rem;
+        }
+
+        .language-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--background-color);
+            padding-bottom: 1rem;
+        }
+
+        .language-tab {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .language-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .guide-content {
+            display: none;
+        }
+
+        .guide-content.active {
+            display: block;
+        }
+
+        .character-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .character-card {
+            background-color: var(--background-color);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .character-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .character-card .char {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .character-card .trans {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .character-card .image-icon {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            width: 20px;
+            height: 20px;
+            opacity: 0.6;
+            transition: var(--transition);
+        }
+
+        .character-card:hover .image-icon {
+            opacity: 1;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 1.5rem 0 1rem;
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 600px) {
+            .character-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+
+        /* Image Modal Styles */
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            cursor: pointer;
+        }
+
+        .image-modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 500px;
+            margin: 2rem auto;
+            background-color: white;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+        }
+
+        .image-modal-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--border-radius);
+        }
+
+        .image-modal-content .close-image {
+            position: absolute;
+            top: -1.5rem;
+            right: -1.5rem;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0.5rem;
+        }
+
+        .image-modal-content .char-title {
+            font-size: 2rem;
+            margin: 1rem 0;
+            color: var(--text-color);
+        }
+
+        .image-modal-content .stroke-info {
+            color: var(--primary-color);
+            margin: 1rem 0;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
@@ -303,6 +480,589 @@
 
         <div class="controls">
             <button id="resetButton">Reset Progress</button>
+            <button id="referenceGuideButton">Reference Guide</button>
+        </div>
+    </div>
+
+    <!-- Reference Guide Modal -->
+    <div id="referenceGuideModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <div class="language-tabs">
+                <div class="language-tab active" data-language="hindi">Hindi</div>
+                <div class="language-tab" data-language="gujarati">Gujarati</div>
+                <div class="language-tab" data-language="punjabi">Punjabi</div>
+            </div>
+
+            <!-- Hindi Guide -->
+            <div id="hindiGuide" class="guide-content active">
+                <h2 class="section-title">Hindi Alphabet Guide</h2>
+                <h3 class="section-title">Vowels (स्वर)</h3>
+                <div class="character-grid">
+                    <div class="character-card">
+                        <div class="char">अ</div>
+                        <div class="trans">a</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">आ</div>
+                        <div class="trans">aa</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">इ</div>
+                        <div class="trans">i</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ई</div>
+                        <div class="trans">ii</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">उ</div>
+                        <div class="trans">u</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ऊ</div>
+                        <div class="trans">uu</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ए</div>
+                        <div class="trans">e</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ऐ</div>
+                        <div class="trans">ai</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ओ</div>
+                        <div class="trans">o</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">औ</div>
+                        <div class="trans">au</div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">Consonants (व्यंजन)</h3>
+                <div class="character-grid">
+                    <div class="character-card">
+                        <div class="char">क</div>
+                        <div class="trans">ka</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ख</div>
+                        <div class="trans">kha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ग</div>
+                        <div class="trans">ga</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">घ</div>
+                        <div class="trans">gha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">च</div>
+                        <div class="trans">cha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">छ</div>
+                        <div class="trans">chha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ज</div>
+                        <div class="trans">ja</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">झ</div>
+                        <div class="trans">jha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ट</div>
+                        <div class="trans">ta</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ठ</div>
+                        <div class="trans">tha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ड</div>
+                        <div class="trans">da</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ढ</div>
+                        <div class="trans">dha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ण</div>
+                        <div class="trans">na</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">त</div>
+                        <div class="trans">ta</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">थ</div>
+                        <div class="trans">tha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">द</div>
+                        <div class="trans">da</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ध</div>
+                        <div class="trans">dha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">न</div>
+                        <div class="trans">na</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">प</div>
+                        <div class="trans">pa</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">फ</div>
+                        <div class="trans">pha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ब</div>
+                        <div class="trans">ba</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">भ</div>
+                        <div class="trans">bha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">म</div>
+                        <div class="trans">ma</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">य</div>
+                        <div class="trans">ya</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">र</div>
+                        <div class="trans">ra</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ल</div>
+                        <div class="trans">la</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">व</div>
+                        <div class="trans">va</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">श</div>
+                        <div class="trans">sha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ष</div>
+                        <div class="trans">sha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">स</div>
+                        <div class="trans">sa</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ह</div>
+                        <div class="trans">ha</div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">Common Conjuncts (संयुक्ताक्षर)</h3>
+                <div class="character-grid">
+                    <div class="character-card">
+                        <div class="char">क्ष</div>
+                        <div class="trans">ksha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">त्र</div>
+                        <div class="trans">tra</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ज्ञ</div>
+                        <div class="trans">gya</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">श्र</div>
+                        <div class="trans">shra</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gujarati Guide -->
+            <div id="gujaratiGuide" class="guide-content">
+                <h2 class="section-title">Gujarati Alphabet Guide</h2>
+                <h3 class="section-title">Vowels (સ્વર)</h3>
+                <div class="character-grid">
+                    <div class="character-card">
+                        <div class="char">અ</div>
+                        <div class="trans">a</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">આ</div>
+                        <div class="trans">aa</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ઇ</div>
+                        <div class="trans">i</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ઈ</div>
+                        <div class="trans">ii</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ઉ</div>
+                        <div class="trans">u</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ઊ</div>
+                        <div class="trans">uu</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">એ</div>
+                        <div class="trans">e</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ઐ</div>
+                        <div class="trans">ai</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ઓ</div>
+                        <div class="trans">o</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ઔ</div>
+                        <div class="trans">au</div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">Consonants (વ્યંજન)</h3>
+                <div class="character-grid">
+                    <div class="character-card">
+                        <div class="char">ક</div>
+                        <div class="trans">ka</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ખ</div>
+                        <div class="trans">kha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ગ</div>
+                        <div class="trans">ga</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ઘ</div>
+                        <div class="trans">gha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ઙ</div>
+                        <div class="trans">nga</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ચ</div>
+                        <div class="trans">cha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">છ</div>
+                        <div class="trans">chha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">જ</div>
+                        <div class="trans">ja</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ઝ</div>
+                        <div class="trans">jha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ઞ</div>
+                        <div class="trans">nya</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ટ</div>
+                        <div class="trans">ta</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ઠ</div>
+                        <div class="trans">tha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ડ</div>
+                        <div class="trans">da</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ઢ</div>
+                        <div class="trans">dha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ણ</div>
+                        <div class="trans">na</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ત</div>
+                        <div class="trans">ta</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">થ</div>
+                        <div class="trans">tha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">દ</div>
+                        <div class="trans">da</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ધ</div>
+                        <div class="trans">dha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ન</div>
+                        <div class="trans">na</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">પ</div>
+                        <div class="trans">pa</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ફ</div>
+                        <div class="trans">pha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">બ</div>
+                        <div class="trans">ba</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ભ</div>
+                        <div class="trans">bha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">મ</div>
+                        <div class="trans">ma</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ય</div>
+                        <div class="trans">ya</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ર</div>
+                        <div class="trans">ra</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">લ</div>
+                        <div class="trans">la</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">વ</div>
+                        <div class="trans">va</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">શ</div>
+                        <div class="trans">sha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ષ</div>
+                        <div class="trans">sha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">સ</div>
+                        <div class="trans">sa</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">હ</div>
+                        <div class="trans">ha</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Punjabi Guide -->
+            <div id="punjabiGuide" class="guide-content">
+                <h2 class="section-title">Punjabi (Gurmukhi) Alphabet Guide</h2>
+                <h3 class="section-title">Vowels (ਸਵਰ)</h3>
+                <div class="character-grid">
+                    <div class="character-card">
+                        <div class="char">ਅ</div>
+                        <div class="trans">a</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਆ</div>
+                        <div class="trans">aa</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਇ</div>
+                        <div class="trans">i</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਈ</div>
+                        <div class="trans">ii</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਉ</div>
+                        <div class="trans">u</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਊ</div>
+                        <div class="trans">uu</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਏ</div>
+                        <div class="trans">e</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਐ</div>
+                        <div class="trans">ai</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਓ</div>
+                        <div class="trans">o</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਔ</div>
+                        <div class="trans">au</div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">Consonants (ਵਿਅੰਜਨ)</h3>
+                <div class="character-grid">
+                    <div class="character-card">
+                        <div class="char">ਕ</div>
+                        <div class="trans">ka</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਖ</div>
+                        <div class="trans">kha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਗ</div>
+                        <div class="trans">ga</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਘ</div>
+                        <div class="trans">gha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਙ</div>
+                        <div class="trans">nga</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਚ</div>
+                        <div class="trans">cha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਛ</div>
+                        <div class="trans">chha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਜ</div>
+                        <div class="trans">ja</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਝ</div>
+                        <div class="trans">jha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਞ</div>
+                        <div class="trans">nya</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਟ</div>
+                        <div class="trans">ta</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਠ</div>
+                        <div class="trans">tha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਡ</div>
+                        <div class="trans">da</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਢ</div>
+                        <div class="trans">dha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਣ</div>
+                        <div class="trans">na</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਤ</div>
+                        <div class="trans">ta</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਥ</div>
+                        <div class="trans">tha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਦ</div>
+                        <div class="trans">da</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਧ</div>
+                        <div class="trans">dha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਨ</div>
+                        <div class="trans">na</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਪ</div>
+                        <div class="trans">pa</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਫ</div>
+                        <div class="trans">pha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਬ</div>
+                        <div class="trans">ba</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਭ</div>
+                        <div class="trans">bha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਮ</div>
+                        <div class="trans">ma</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਯ</div>
+                        <div class="trans">ya</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਰ</div>
+                        <div class="trans">ra</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਲ</div>
+                        <div class="trans">la</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਵ</div>
+                        <div class="trans">va</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਸ</div>
+                        <div class="trans">sa</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ਹ</div>
+                        <div class="trans">ha</div>
+                    </div>
+                    <div class="character-card">
+                        <div class="char">ੜ</div>
+                        <div class="trans">rra</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add this right after the reference guide modal -->
+    <div id="imageModal" class="image-modal">
+        <div class="image-modal-content">
+            <button class="close-image">&times;</button>
+            <div class="char-title"></div>
+            <img src="" alt="Character writing guide">
+            <div class="stroke-info"></div>
         </div>
     </div>
 
@@ -681,6 +1441,108 @@
 
         // Load the username when the page is ready
         loadUsername();
+
+        // Reference Guide Modal Functionality
+        const modal = document.getElementById('referenceGuideModal');
+        const referenceGuideButton = document.getElementById('referenceGuideButton');
+        const closeModal = document.querySelector('.close-modal');
+        const languageTabs = document.querySelectorAll('.language-tab');
+        const guideContents = document.querySelectorAll('.guide-content');
+
+        referenceGuideButton.addEventListener('click', () => {
+            modal.style.display = 'block';
+        });
+
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        languageTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                languageTabs.forEach(t => t.classList.remove('active'));
+                guideContents.forEach(c => c.classList.remove('active'));
+
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                const language = tab.dataset.language;
+                document.getElementById(`${language}Guide`).classList.add('active');
+            });
+        });
+
+        // Image Modal Functionality
+        const imageModal = document.getElementById('imageModal');
+        const closeImageModal = document.querySelector('.close-image');
+        const imageModalContent = document.querySelector('.image-modal-content');
+        const charTitle = document.querySelector('.char-title');
+        const strokeInfo = document.querySelector('.stroke-info');
+
+        // Function to create image icon
+        function createImageIcon() {
+            const icon = document.createElement('img');
+            icon.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNGE5MGUyIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTIzIDE5YzAgLjU1LS40NSAxLTEgMUgyYy0uNTUgMC0xLS40NS0xLTEgVjVjMC0uNTUuNDUtMSAxLTFoMjBjLjU1IDAgMSAuNDUgMSAxdjE0eiIvPjxwYXRoIGQ9Ik0xNiA1djE0TTggNXYxNE0yMyA5SDhNMiA5aDIxTTIzIDE1SDhNMiAxNWgyMSIvPjwvc3ZnPg==';
+            icon.className = 'image-icon';
+            icon.alt = 'View writing guide';
+            return icon;
+        }
+
+        // Add image icons to all character cards
+        document.querySelectorAll('.character-card').forEach(card => {
+            const char = card.querySelector('.char').textContent;
+            const icon = createImageIcon();
+            icon.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showCharacterImage(char);
+            });
+            card.appendChild(icon);
+        });
+
+        function showCharacterImage(char) {
+            // Get the current language
+            const activeTab = document.querySelector('.language-tab.active');
+            const language = activeTab.dataset.language;
+            
+            // Set the image source based on language and character
+            const imagePath = `images/${language}/${char}.svg`;
+            const img = imageModalContent.querySelector('img');
+            img.src = imagePath;
+            
+            // Set the character title
+            charTitle.textContent = char;
+            
+            // Set stroke information based on character type
+            const isVowel = document.querySelector(`#${language}Guide .section-title:contains('Vowels')`).nextElementSibling.contains(card);
+            strokeInfo.textContent = isVowel ? 'Vowel - 1-2 strokes' : 'Consonant - 2-4 strokes';
+            
+            // Show the modal
+            imageModal.style.display = 'block';
+        }
+
+        // Close image modal
+        closeImageModal.addEventListener('click', () => {
+            imageModal.style.display = 'none';
+        });
+
+        imageModal.addEventListener('click', (e) => {
+            if (e.target === imageModal) {
+                imageModal.style.display = 'none';
+            }
+        });
+
+        // Handle image loading errors
+        document.querySelectorAll('.image-modal-content img').forEach(img => {
+            img.addEventListener('error', function() {
+                this.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTc0YzNjIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiLz48bGluZSB4MT0iMTUiIHkxPSI5IiB4Mj0iOSIgeTI9IjE1Ii8+PGxpbmUgeDE9IjkiIHkxPSI5IiB4Mj0iMTUiIHkyPSIxNSIvPjwvc3ZnPg==';
+                this.alt = 'Image not available';
+                strokeInfo.textContent = 'Writing guide image not available';
+            });
+        });
 
         // Start the game
         displayRandomLetter();
