@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learn Indian Scripts - Hindi, Gujarati & Punjabi</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Comic+Neue:wght@400;700&family=Bubblegum+Sans&family=Quicksand:wght@400;500;600&family=Baloo+2:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
             --primary-color: #4a90e2;
@@ -28,7 +29,6 @@
             background-color: var(--background-color);
             font-family: 'Poppins', sans-serif;
             color: var(--text-color);
-            transition: var(--transition);
             padding: 20px;
         }
 
@@ -40,6 +40,7 @@
             width: 90%;
             max-width: 800px;
             position: relative;
+            padding-top: 4rem;
         }
 
         #letter {
@@ -47,17 +48,12 @@
             color: var(--text-color);
             text-align: center;
             margin: 2rem 0;
-            transition: all 0.15s ease;
-            animation: fadeIn 0.3s ease;
             font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
 
-        #stats {
-            background-color: var(--background-color);
-            border-radius: var(--border-radius);
-            padding: 1rem;
-            margin: 1rem 0;
-            text-align: center;
+        #letter.correct {
+            color: var(--success-color);
         }
 
         #level {
@@ -71,13 +67,7 @@
             padding: 0.5rem 1rem;
             border-radius: 20px;
             box-shadow: var(--shadow);
-        }
-
-        .controls {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin: 1rem 0;
+            z-index: 10;
         }
 
         button {
@@ -94,14 +84,28 @@
         }
 
         button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            background-color: #357abd;
+        }
+
+        button:active {
+            transform: translateY(1px);
         }
 
         #pauseButton {
             position: absolute;
             top: 1rem;
-            left: 1rem;
+            right: 8rem;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: var(--border-radius);
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            z-index: 10;
         }
 
         #languageSelector {
@@ -124,36 +128,51 @@
             justify-content: center;
             flex-wrap: wrap;
             margin: 2rem 0;
+            width: 100%;
+            padding: 0 1rem;
         }
 
         .option-button {
-            font-size: 1.5rem;
-            padding: 1rem 2rem;
+            flex: 1;
+            min-width: 150px;
+            max-width: 250px;
+            height: 60px;
+            font-size: 1.2rem;
+            padding: 0.5rem 1rem;
             border: 2px solid var(--primary-color);
             border-radius: var(--border-radius);
             background-color: white;
             cursor: pointer;
-            transition: all 0.15s ease;
-            min-width: 120px;
+            transition: var(--transition);
             box-shadow: var(--shadow);
             color: var(--text-color);
             font-weight: 500;
             text-transform: lowercase;
             letter-spacing: 0.5px;
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            word-break: break-word;
+            overflow: visible;
+            white-space: normal;
+            line-height: 1.2;
         }
 
         .option-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
             background-color: var(--primary-color);
             color: white;
+            transform: translateY(-2px);
+        }
+
+        .option-button:active {
+            transform: translateY(0);
         }
 
         .option-button.correct {
             background-color: var(--success-color);
             border-color: var(--success-color);
             color: white;
-            transform: scale(1.01);
         }
 
         .option-button.incorrect {
@@ -162,127 +181,384 @@
             color: white;
         }
 
-        #feedback {
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin: 1rem 0;
-            min-height: 2em;
-            transition: all 0.15s ease;
-            padding: 1rem;
-            background-color: var(--background-color);
-            border-radius: var(--border-radius);
+        .option-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
         }
 
-        .correct-text {
-            color: var(--success-color);
-            background-color: rgba(46, 204, 113, 0.1);
-        }
-
-        .incorrect-text {
-            color: var(--error-color);
-            background-color: rgba(231, 76, 60, 0.1);
-        }
-
-        #score {
-            text-align: center;
-            font-size: 1.2rem;
-            margin: 1rem 0;
-            padding: 1rem;
-            background-color: var(--background-color);
-            border-radius: var(--border-radius);
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(5px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background-color: #e0e0e0;
-            border-radius: 4px;
-            margin: 1rem 0;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background-color: var(--primary-color);
-            transition: width 0.3s ease;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 1rem;
-            }
-
-            #letter {
-                font-size: 6rem;
+        @media (max-width: 768px) {
+            #optionsContainer {
+                gap: 0.75rem;
+                padding: 0 0.5rem;
             }
 
             .option-button {
-                font-size: 1.2rem;
-                padding: 0.8rem 1.5rem;
+                min-width: 120px;
+                height: 50px;
+                font-size: 1.1rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #optionsContainer {
+                gap: 0.5rem;
+                padding: 0 0.25rem;
             }
 
-            .controls {
-                flex-direction: column;
+            .option-button {
+                min-width: 100px;
+                height: 45px;
+                font-size: 1rem;
+                padding: 0.3rem 0.6rem;
+                flex: 1 1 calc(33.333% - 0.5rem);
             }
+        }
+
+        /* Custom font selector styles */
+        .font-selector {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1000;
+        }
+
+        .font-selector-button {
+            padding: 0.8rem 1.2rem;
+            font-size: 1rem;
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            background-color: white;
+            cursor: pointer;
+            transition: var(--transition);
+            min-width: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .font-selector-button:hover {
+            background-color: var(--background-color);
+        }
+
+        .font-selector-button::after {
+            content: '';
+            width: 1em;
+            height: 1em;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a90e2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .font-selector-button.open::after {
+            transform: rotate(180deg);
+        }
+
+        .font-menu {
+            position: absolute;
+            top: calc(100% + 5px);
+            left: 0;
+            width: 100%;
+            background: white;
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: none;
+            z-index: 1001;
+        }
+
+        .font-menu.show {
+            display: block;
+        }
+
+        .font-option {
+            padding: 0.8rem 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.2s ease;
+            border-radius: var(--border-radius);
+            background-color: white;
+        }
+
+        .font-option:first-child {
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
+        }
+
+        .font-option:last-child {
+            border-bottom-left-radius: var(--border-radius);
+            border-bottom-right-radius: var(--border-radius);
+        }
+
+        .font-option:hover {
+            background-color: var(--background-color);
+        }
+
+        .font-option.selected {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .font-option.selected .font-preview {
+            color: white;
+        }
+
+        .font-preview {
+            font-size: 1.2rem;
+            margin-right: 0.8rem;
+            min-width: 2em;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .font-name {
+            font-size: 1rem;
+            flex-grow: 1;
+        }
+
+        /* Font preview classes */
+        .font-comic-preview { font-family: 'Comic Neue', cursive; }
+        .font-bubblegum-preview { font-family: 'Bubblegum Sans', cursive; }
+        .font-quicksand-preview { font-family: 'Quicksand', sans-serif; }
+        .font-baloo-preview { font-family: 'Baloo 2', cursive; }
+        .font-poppins-preview { font-family: 'Poppins', sans-serif; }
+
+        @media (max-width: 600px) {
+            .font-selector {
+                position: fixed;
+                top: 1rem;
+                left: 1rem;
+                right: 1rem;
+                width: auto;
+                z-index: 1000;
+            }
+
+            .font-selector-button {
+                width: 100%;
+            }
+
+            .font-menu {
+                position: fixed;
+                top: auto;
+                left: 1rem;
+                right: 1rem;
+                width: auto;
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+        }
+
+        #startButton {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        #startButton:hover:not(:disabled) {
+            background-color: #357abd;
+            transform: translateY(-2px);
+        }
+
+        #startButton:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.7;
+        }
+
+        #startButton:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        /* Add styles for start screen */
+        .start-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--background-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .start-screen.hidden {
+            display: none;
+        }
+
+        .game-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-family: 'Bubblegum Sans', cursive;
+        }
+
+        .game-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            margin-bottom: 2rem;
+            font-family: 'Comic Neue', cursive;
+        }
+
+        .instructions {
+            background-color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        .instructions h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-family: 'Baloo 2', cursive;
+        }
+
+        .instructions ul {
+            text-align: left;
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+        .instructions li {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            line-height: 1.4;
+        }
+
+        .start-screen-button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 3rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            font-family: 'Bubblegum Sans', cursive;
+        }
+
+        .start-screen-button:hover {
+            background-color: #357abd;
+            transform: translateY(-2px);
+        }
+
+        .start-screen-button:active {
+            transform: translateY(0);
+        }
+
+        .game-container {
+            display: none;
+        }
+
+        .game-container.visible {
+            display: block;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div id="level">Level 1</div>
-        <select id="languageSelector">
-            <option value="hindi">Hindi</option>
-            <option value="gujarati">Gujarati</option>
-            <option value="punjabi">Punjabi</option>
-        </select>
-        <button id="pauseButton">Pause</button>
-
-        <div id="letter">अ</div>
-
-        <div class="progress-bar">
-            <div class="progress-fill" style="width: 0%"></div>
+    <div class="start-screen" id="startScreen">
+        <h1 class="game-title">Learn Indian Scripts</h1>
+        <p class="game-subtitle">Master Hindi, Gujarati & Punjabi with fun!</p>
+        
+        <div class="instructions">
+            <h2>How to Play:</h2>
+            <ul>
+                <li>🎯 Choose your preferred language from the dropdown menu</li>
+                <li>📝 Select the correct pronunciation for each character</li>
+                <li>⭐ Complete letters quickly to advance to the next level</li>
+                <li>🎮 Use the space bar to pause/unpause the game</li>
+                <li>🎨 Try different fonts to find your favorite style</li>
+                <li>🏆 Reach Level 3 to master complex characters!</li>
+            </ul>
         </div>
+        
+        <button class="start-screen-button" onclick="beginGame()">Start Learning!</button>
+    </div>
 
-        <div id="stats">
-            <p>Time spent guessing: <span id="timer">0.00</span> seconds</p>
-            <p>Average time per letter: <span id="averageTime">0.00</span> seconds | Target: <span id="targetTime">0.50</span> seconds</p>
-        </div>
+    <div class="game-container" id="gameContainer">
+        <div class="container">
+            <div class="font-selector">
+                <button class="font-selector-button" onclick="toggleFontMenu()">
+                    <span id="currentFontPreview" class="font-comic-preview">Aa</span>
+                    <span id="currentFontName">Comic Neue</span>
+                </button>
+                <div id="fontMenu" class="font-menu">
+                    <div class="font-option selected" onclick="changeFont('font-comic', 'Comic Neue')">
+                        <span class="font-preview font-comic-preview">Aa</span>
+                        <span class="font-name">Comic Neue</span>
+                    </div>
+                    <div class="font-option" onclick="changeFont('font-bubblegum', 'Bubblegum Sans')">
+                        <span class="font-preview font-bubblegum-preview">Aa</span>
+                        <span class="font-name">Bubblegum Sans</span>
+                    </div>
+                    <div class="font-option" onclick="changeFont('font-quicksand', 'Quicksand')">
+                        <span class="font-preview font-quicksand-preview">Aa</span>
+                        <span class="font-name">Quicksand</span>
+                    </div>
+                    <div class="font-option" onclick="changeFont('font-baloo', 'Baloo 2')">
+                        <span class="font-preview font-baloo-preview">Aa</span>
+                        <span class="font-name">Baloo 2</span>
+                    </div>
+                    <div class="font-option" onclick="changeFont('font-poppins', 'Poppins')">
+                        <span class="font-preview font-poppins-preview">Aa</span>
+                        <span class="font-name">Poppins</span>
+                    </div>
+                </div>
+            </div>
+            <div id="level">Level 1</div>
+            <select id="languageSelector">
+                <option value="hindi">Hindi</option>
+                <option value="gujarati">Gujarati</option>
+                <option value="punjabi">Punjabi</option>
+            </select>
+            <button id="pauseButton">Pause</button>
 
-        <div id="optionsContainer">
-            <button class="option-button" data-index="0"></button>
-            <button class="option-button" data-index="1"></button>
-            <button class="option-button" data-index="2"></button>
-        </div>
+            <div id="letter">अ</div>
 
-        <div id="feedback"></div>
-        <div id="score">Score: <span id="correctCount">0</span> correct, <span id="incorrectCount">0</span> incorrect</div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%"></div>
+            </div>
 
-        <div class="controls">
-            <button id="resetButton">Reset Progress</button>
+            <div id="stats">
+                <p>Time spent guessing: <span id="timer">0.00</span> seconds</p>
+                <p>Average time per letter: <span id="averageTime">0.00</span> seconds | Target: <span id="targetTime">0.50</span> seconds</p>
+            </div>
+
+            <div id="optionsContainer">
+                <button class="option-button" data-index="0"></button>
+                <button class="option-button" data-index="1"></button>
+                <button class="option-button" data-index="2"></button>
+            </div>
+
+            <div id="feedback"></div>
+            <div id="score">Score: <span id="correctCount">0</span> correct, <span id="incorrectCount">0</span> incorrect</div>
+
+            <div class="controls">
+                <button id="startButton">Start Game</button>
+                <button id="resetButton">Reset Progress</button>
+            </div>
         </div>
     </div>
 
@@ -326,6 +602,7 @@
         let incorrectCount = 0;
         let currentOptions = [];
         let lastLetterTrans = '';
+        let isGameStarted = false;
 
         const levelThreshold = 20;
         const promotionTime = 0.5;
@@ -462,36 +739,36 @@
         }
 
         function displayRandomLetter() {
-            if (!isPaused) {
-                lastLetter = getRandomLetter();
-                const letterElement = document.getElementById('letter');
-                letterElement.style.opacity = '0';
-                letterElement.style.transform = 'translateY(5px)';
-                
-                setTimeout(() => {
-                    letterElement.textContent = lastLetter;
-                    letterElement.style.opacity = '1';
-                    letterElement.style.transform = 'translateY(0)';
-                }, 50);
-
-                document.getElementById('feedback').textContent = '';
-                document.getElementById('feedback').className = '';
-                
-                const optionButtons = document.querySelectorAll('.option-button');
-                optionButtons.forEach(button => {
-                    button.className = 'option-button';
-                    button.disabled = false;
-                });
-                
-                currentOptions = getRandomOptions(lastLetter);
-                optionButtons.forEach((button, index) => {
-                    button.textContent = currentOptions[index];
-                });
-                
-                resetTimer();
-                startTime = new Date();
-                updateProgressBar();
+            if (!isGameStarted || isPaused) {
+                return;
             }
+            lastLetter = getRandomLetter();
+            const letterElement = document.getElementById('letter');
+            letterElement.textContent = lastLetter;
+            letterElement.classList.remove('correct');
+
+            document.getElementById('feedback').textContent = '';
+            document.getElementById('feedback').className = '';
+            
+            const optionButtons = document.querySelectorAll('.option-button');
+            optionButtons.forEach(button => {
+                button.className = 'option-button';
+                button.disabled = false;
+                button.style.height = 'auto'; // Reset height
+                button.style.minHeight = '60px'; // Set minimum height
+            });
+            
+            currentOptions = getRandomOptions(lastLetter);
+            optionButtons.forEach((button, index) => {
+                button.textContent = currentOptions[index];
+                // Adjust height based on content
+                button.style.height = 'auto';
+                button.style.minHeight = '60px';
+            });
+            
+            resetTimer();
+            startTime = new Date();
+            updateProgressBar();
         }
 
         function resetTimer() {
@@ -519,6 +796,40 @@
             }
         }
 
+        function celebrateLevelUp() {
+            const duration = 3 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+                
+                // Launch confetti from the left
+                confetti({
+                    ...defaults,
+                    particleCount,
+                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+                });
+                
+                // Launch confetti from the right
+                confetti({
+                    ...defaults,
+                    particleCount,
+                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+                });
+            }, 250);
+        }
+
         function promoteLevel() {
             if (currentLevel < 3) {
                 currentLevel++;
@@ -528,6 +839,23 @@
                 document.getElementById('level').textContent = `Level ${currentLevel}`;
                 document.getElementById('targetTime').textContent = currentLevel < 3 ? '0.50' : 'N/A';
                 changeBackground();
+                
+                // Show celebration message and trigger confetti
+                const feedback = document.getElementById('feedback');
+                feedback.textContent = `🎉 Congratulations! You've reached Level ${currentLevel}! 🎉`;
+                feedback.className = 'correct-text';
+                feedback.style.fontSize = '1.2rem';
+                feedback.style.fontWeight = 'bold';
+                feedback.style.textAlign = 'center';
+                feedback.style.margin = '1rem 0';
+                celebrateLevelUp();
+                
+                // Reset feedback after 3 seconds
+                setTimeout(() => {
+                    feedback.textContent = '';
+                    feedback.className = '';
+                    feedback.style = '';
+                }, 3000);
             }
         }
 
@@ -567,12 +895,14 @@
         function checkAnswer(selectedOption) {
             const optionButtons = document.querySelectorAll('.option-button');
             const feedback = document.getElementById('feedback');
+            const letterElement = document.getElementById('letter');
             
             optionButtons.forEach(button => {
                 button.disabled = true;
             });
             
             if (selectedOption === lastLetterTrans) {
+                letterElement.classList.add('correct');
                 feedback.textContent = `Correct! ${lastLetter} is pronounced as "${lastLetterTrans}"`;
                 feedback.className = 'correct-text';
                 correctCount++;
@@ -612,6 +942,13 @@
 
         // Modify the reset button event listener
         document.getElementById('resetButton').addEventListener('click', () => {
+            document.getElementById('startScreen').classList.remove('hidden');
+            document.getElementById('gameContainer').classList.remove('visible');
+            isGameStarted = false;
+            const startButton = document.getElementById('startButton');
+            startButton.textContent = 'Start Game';
+            startButton.disabled = false;
+            startButton.style.cursor = 'pointer';
             totalTime = 0;
             totalLetters = 0;
             levelLetterCount = 0;
@@ -620,6 +957,16 @@
             document.getElementById('averageTime').textContent = '0.00';
             document.getElementById('correctCount').textContent = '0';
             document.getElementById('incorrectCount').textContent = '0';
+            document.getElementById('letter').textContent = '';
+            document.getElementById('feedback').textContent = '';
+            document.getElementById('feedback').className = '';
+            document.querySelector('.progress-fill').style.width = '0%';
+            const optionButtons = document.querySelectorAll('.option-button');
+            optionButtons.forEach(button => {
+                button.textContent = '';
+                button.className = 'option-button';
+                button.disabled = true;
+            });
         });
 
         // Add progress bar update
@@ -628,8 +975,118 @@
             document.querySelector('.progress-fill').style.width = `${progress}%`;
         }
 
-        // Start the game
-        displayRandomLetter();
+        // Add start game function
+        function startGame() {
+            if (!isGameStarted) {
+                isGameStarted = true;
+                const startButton = document.getElementById('startButton');
+                startButton.textContent = 'Game in Progress';
+                startButton.disabled = true;
+                startButton.style.cursor = 'not-allowed';
+                displayRandomLetter();
+            }
+        }
+
+        // Add start button event listener with check
+        document.getElementById('startButton').addEventListener('click', function() {
+            if (!this.disabled) {
+                startGame();
+            }
+        });
+
+        // Add these functions at the beginning of the script section
+        function toggleFontMenu() {
+            const menu = document.getElementById('fontMenu');
+            const button = document.querySelector('.font-selector-button');
+            
+            // Close any other open dropdowns first
+            document.querySelectorAll('.font-menu.show').forEach(m => {
+                if (m !== menu) m.classList.remove('show');
+            });
+            
+            menu.classList.toggle('show');
+            button.classList.toggle('open');
+            
+            // Ensure menu is visible
+            if (menu.classList.contains('show')) {
+                const rect = menu.getBoundingClientRect();
+                const viewportHeight = window.innerHeight;
+                
+                // If menu would go off screen, adjust its position
+                if (rect.bottom > viewportHeight) {
+                    menu.style.top = 'auto';
+                    menu.style.bottom = '100%';
+                    menu.style.marginTop = '0';
+                    menu.style.marginBottom = '5px';
+                }
+            }
+        }
+
+        function changeFont(fontClass, fontName) {
+            const letterElement = document.getElementById('letter');
+            const preview = document.getElementById('currentFontPreview');
+            const nameElement = document.getElementById('currentFontName');
+            
+            // Update letter font
+            letterElement.classList.remove('font-comic', 'font-bubblegum', 'font-quicksand', 'font-baloo', 'font-poppins');
+            letterElement.classList.add(fontClass);
+            
+            // Update preview
+            preview.className = 'font-preview ' + fontClass + '-preview';
+            nameElement.textContent = fontName;
+            
+            // Update selected state
+            const fontOptions = document.querySelectorAll('.font-option');
+            fontOptions.forEach(option => {
+                option.classList.remove('selected');
+                if (option.querySelector('.font-preview').classList.contains(fontClass + '-preview')) {
+                    option.classList.add('selected');
+                }
+            });
+            
+            // Hide menu
+            const menu = document.getElementById('fontMenu');
+            const button = document.querySelector('.font-selector-button');
+            menu.classList.remove('show');
+            button.classList.remove('open');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const menu = document.getElementById('fontMenu');
+            const button = document.querySelector('.font-selector-button');
+            const selector = document.querySelector('.font-selector');
+            
+            if (!selector.contains(e.target)) {
+                menu.classList.remove('show');
+                button.classList.remove('open');
+            }
+        });
+
+        // Prevent menu from closing when clicking inside it
+        document.getElementById('fontMenu').addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        // Initialize with default font
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('gameContainer').classList.remove('visible');
+            changeFont('font-comic', 'Comic Neue');
+            const letterElement = document.getElementById('letter');
+            letterElement.classList.add('font-comic');
+        });
+
+        // Add new function to handle game start
+        function beginGame() {
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('gameContainer').classList.add('visible');
+            // Initialize the game but don't start it yet
+            isGameStarted = false;
+            const startButton = document.getElementById('startButton');
+            startButton.textContent = 'Start Game';
+            startButton.disabled = false;
+            startButton.style.cursor = 'pointer';
+        }
     </script>
 </body>
 </html>
