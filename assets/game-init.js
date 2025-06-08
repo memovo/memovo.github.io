@@ -87,6 +87,7 @@ document.getElementById('resetButton').addEventListener('click', () => {
 /* =========================
    Initialisation
    ========================= */
+
 // Initialize the game when the DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize voice recognition
@@ -98,6 +99,13 @@ document.addEventListener('DOMContentLoaded', function() {
             checkAnswer(spokenText);
         }
     });
+
+loadUsername();
+currentLevel = getSavedLevel(currentLanguage);
+updateLevelDisplay();
+changeBackground();
+initKeyboardShortcuts();
+addKeyboardHints();
 
     // Initialize other game components
     loadUsername();
