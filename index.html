@@ -193,6 +193,24 @@
             border-radius: var(--border-radius);
         }
 
+        /* Greeting styles */
+        #greeting {
+            text-align: center;
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            cursor: default;
+        }
+
+        #username {
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 1px dashed var(--primary-color);
+        }
+
+        #username:focus {
+            outline: none;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -252,6 +270,8 @@
     </style>
 </head>
 <body>
+    <!-- Personalized greeting placed at the very top -->
+    <h2 id="greeting">Hello, <span id="username">user</span>!</h2>
     <div class="container">
         <div id="level">Level 1</div>
         <select id="languageSelector">
@@ -401,28 +421,28 @@
             if (currentLanguage === 'hindi') {
                 const vowelIndex = hindiVowels.indexOf(letter);
                 if (vowelIndex !== -1) return hindiVowelTrans[vowelIndex];
-                
+
                 const consonantIndex = hindiConsonants.indexOf(letter);
                 if (consonantIndex !== -1) return hindiConsonantTrans[consonantIndex];
-                
+
                 const conjunctIndex = hindiConjuncts.indexOf(letter);
                 if (conjunctIndex !== -1) return hindiConjunctTrans[conjunctIndex];
             } else if (currentLanguage === 'gujarati') {
                 const vowelIndex = gujaratiVowels.indexOf(letter);
                 if (vowelIndex !== -1) return gujaratiVowelTrans[vowelIndex];
-                
+
                 const consonantIndex = gujaratiConsonants.indexOf(letter);
                 if (consonantIndex !== -1) return gujaratiConsonantTrans[consonantIndex];
-                
+
                 const conjunctIndex = gujaratiConjuncts.indexOf(letter);
                 if (conjunctIndex !== -1) return gujaratiConjunctTrans[conjunctIndex];
             } else if (currentLanguage === 'punjabi') {
                 const vowelIndex = punjabiVowels.indexOf(letter);
                 if (vowelIndex !== -1) return punjabiVowelTrans[vowelIndex];
-                
+
                 const consonantIndex = punjabiConsonants.indexOf(letter);
                 if (consonantIndex !== -1) return punjabiConsonantTrans[consonantIndex];
-                
+
                 const conjunctIndex = punjabiConjuncts.indexOf(letter);
                 if (conjunctIndex !== -1) return punjabiConjunctTrans[conjunctIndex];
             }
@@ -432,7 +452,7 @@
         function getRandomOptions(correctLetter) {
             const correctTrans = getTransliteration(correctLetter);
             lastLetterTrans = correctTrans;
-            
+
             // Get all possible transliterations
             let allTrans = [];
             if (currentLanguage === 'hindi') {
@@ -442,10 +462,10 @@
             } else if (currentLanguage === 'punjabi') {
                 allTrans = [...punjabiVowelTrans, ...punjabiConsonantTrans, ...punjabiConjunctTrans];
             }
-            
+
             // Remove the correct transliteration from the pool
             const transPool = allTrans.filter(trans => trans !== correctTrans);
-            
+
             // Get two random wrong options
             const wrongOptions = [];
             while (wrongOptions.length < 2) {
@@ -455,7 +475,7 @@
                     wrongOptions.push(randomTrans);
                 }
             }
-            
+
             // Combine correct and wrong options, then shuffle
             const options = [correctTrans, ...wrongOptions];
             return options.sort(() => Math.random() - 0.5);
@@ -467,7 +487,7 @@
                 const letterElement = document.getElementById('letter');
                 letterElement.style.opacity = '0';
                 letterElement.style.transform = 'translateY(5px)';
-                
+
                 setTimeout(() => {
                     letterElement.textContent = lastLetter;
                     letterElement.style.opacity = '1';
@@ -476,18 +496,18 @@
 
                 document.getElementById('feedback').textContent = '';
                 document.getElementById('feedback').className = '';
-                
+
                 const optionButtons = document.querySelectorAll('.option-button');
                 optionButtons.forEach(button => {
                     button.className = 'option-button';
                     button.disabled = false;
                 });
-                
+
                 currentOptions = getRandomOptions(lastLetter);
                 optionButtons.forEach((button, index) => {
                     button.textContent = currentOptions[index];
                 });
-                
+
                 resetTimer();
                 startTime = new Date();
                 updateProgressBar();
@@ -567,11 +587,11 @@
         function checkAnswer(selectedOption) {
             const optionButtons = document.querySelectorAll('.option-button');
             const feedback = document.getElementById('feedback');
-            
+
             optionButtons.forEach(button => {
                 button.disabled = true;
             });
-            
+
             if (selectedOption === lastLetterTrans) {
                 feedback.textContent = `Correct! ${lastLetter} is pronounced as "${lastLetterTrans}"`;
                 feedback.className = 'correct-text';
@@ -584,10 +604,10 @@
                 optionButtons[currentOptions.indexOf(selectedOption)].classList.add('incorrect');
                 optionButtons[currentOptions.indexOf(lastLetterTrans)].classList.add('correct');
             }
-            
+
             document.getElementById('correctCount').textContent = correctCount;
             document.getElementById('incorrectCount').textContent = incorrectCount;
-            
+
             setTimeout(displayRandomLetter, 800);
         }
 
@@ -627,6 +647,40 @@
             const progress = (levelLetterCount / levelThreshold) * 100;
             document.querySelector('.progress-fill').style.width = `${progress}%`;
         }
+
+        /* =========================== */
+        /*   Greeting name persistence  */
+        /* =========================== */
+
+        const usernameSpan = document.getElementById('username');
+
+        function loadUsername() {
+            const savedName = localStorage.getItem('username') || 'user';
+            usernameSpan.textContent = savedName;
+        }
+
+        usernameSpan.addEventListener('click', function () {
+            this.contentEditable = true;
+            this.focus();
+        });
+
+        usernameSpan.addEventListener('blur', function () {
+            this.contentEditable = false;
+            let newName = this.textContent.trim();
+            if (newName === '') newName = 'user';
+            this.textContent = newName;
+            localStorage.setItem('username', newName);
+        });
+
+        usernameSpan.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                this.blur();
+            }
+        });
+
+        // Load the username when the page is ready
+        loadUsername();
 
         // Start the game
         displayRandomLetter();
