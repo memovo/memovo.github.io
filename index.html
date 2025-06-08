@@ -249,40 +249,77 @@
                 flex-direction: column;
             }
         }
+
+        .game-container {
+            display: none;
+        }
+
+        .start-screen {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .start-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            margin: 1rem 0;
+        }
+
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div id="level">Level 1</div>
-        <select id="languageSelector">
-            <option value="hindi">Hindi</option>
-            <option value="gujarati">Gujarati</option>
-            <option value="punjabi">Punjabi</option>
-        </select>
-        <button id="pauseButton">Pause</button>
-
-        <div id="letter">अ</div>
-
-        <div class="progress-bar">
-            <div class="progress-fill" style="width: 0%"></div>
+        <div id="startScreen" class="start-screen">
+            <h1>Learn Indian Scripts</h1>
+            <p>Select your language and click Start to begin learning!</p>
+            <select id="languageSelector">
+                <option value="hindi">Hindi</option>
+                <option value="gujarati">Gujarati</option>
+                <option value="punjabi">Punjabi</option>
+                <option value="malayalam">Malayalam</option>
+            </select>
+            <button id="startButton" class="start-button">Start Game</button>
         </div>
 
-        <div id="stats">
-            <p>Time spent guessing: <span id="timer">0.00</span> seconds</p>
-            <p>Average time per letter: <span id="averageTime">0.00</span> seconds | Target: <span id="targetTime">0.50</span> seconds</p>
-        </div>
+        <div id="gameContainer" class="game-container">
+            <div id="level">Level 1</div>
+            <button id="pauseButton">Pause</button>
 
-        <div id="optionsContainer">
-            <button class="option-button" data-index="0"></button>
-            <button class="option-button" data-index="1"></button>
-            <button class="option-button" data-index="2"></button>
-        </div>
+            <div id="letter">अ</div>
 
-        <div id="feedback"></div>
-        <div id="score">Score: <span id="correctCount">0</span> correct, <span id="incorrectCount">0</span> incorrect</div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%"></div>
+            </div>
 
-        <div class="controls">
-            <button id="resetButton">Reset Progress</button>
+            <div id="stats">
+                <p>Time spent guessing: <span id="timer">0.00</span> seconds</p>
+                <p>Average time per letter: <span id="averageTime">0.00</span> seconds | Target: <span id="targetTime">5.00</span> seconds</p>
+            </div>
+
+            <div id="optionsContainer">
+                <button class="option-button" data-index="0"></button>
+                <button class="option-button" data-index="1"></button>
+                <button class="option-button" data-index="2"></button>
+            </div>
+
+            <div id="feedback"></div>
+            <div id="score">Score: <span id="correctCount">0</span> correct, <span id="incorrectCount">0</span> incorrect</div>
+
+            <div class="controls">
+                <button id="resetButton">Reset Progress</button>
+            </div>
         </div>
     </div>
 
@@ -317,6 +354,173 @@
         const punjabiConjuncts = ['ਕ੍ਰ', 'ਗ੍ਰ', 'ਜ੍ਞ', 'ਟ੍ਰ', 'ਡ੍ਰ', 'ਤ੍ਰ', 'ਦ੍ਰ', 'ਨ੍ਰ', 'ਪ੍ਰ', 'ਬ੍ਰ', 'ਮ੍ਰ', 'ਯ੍ਰ', 'ਲ੍ਰ', 'ਵ੍ਰ', 'ਸ੍ਰ', 'ਹ੍ਰ', 'ਕ੍ਵ', 'ਗ੍ਵ', 'ਜ੍ਵ', 'ਟ੍ਵ', 'ਡ੍ਵ', 'ਤ੍ਵ', 'ਦ੍ਵ', 'ਨ੍ਵ', 'ਪ੍ਵ', 'ਬ੍ਵ', 'ਮ੍ਵ', 'ਯ੍ਵ', 'ਲ੍ਵ', 'ਵ੍ਵ', 'ਸ੍ਵ', 'ਹ੍ਵ'];
         const punjabiConjunctTrans = ['kra', 'gra', 'gya', 'tra', 'dra', 'tra', 'dra', 'nra', 'pra', 'bra', 'mra', 'yra', 'lra', 'vra', 'sra', 'hra', 'kva', 'gva', 'jva', 'tva', 'dva', 'tva', 'dva', 'nva', 'pva', 'bva', 'mva', 'yva', 'lva', 'vva', 'sva', 'hva'];
 
+        // Malayalam letters with their English transliterations
+        const malayalamLetters = [
+            { letter: 'അ', transliteration: 'a' },
+            { letter: 'ആ', transliteration: 'aa' },
+            { letter: 'ഇ', transliteration: 'i' },
+            { letter: 'ഈ', transliteration: 'ii' },
+            { letter: 'ഉ', transliteration: 'u' },
+            { letter: 'ഊ', transliteration: 'uu' },
+            { letter: 'ഋ', transliteration: 'r' },
+            { letter: 'എ', transliteration: 'e' },
+            { letter: 'ഏ', transliteration: 'ee' },
+            { letter: 'ഐ', transliteration: 'ai' },
+            { letter: 'ഒ', transliteration: 'o' },
+            { letter: 'ഓ', transliteration: 'oo' },
+            { letter: 'ഔ', transliteration: 'au' },
+            { letter: 'ക', transliteration: 'ka' },
+            { letter: 'ഖ', transliteration: 'kha' },
+            { letter: 'ഗ', transliteration: 'ga' },
+            { letter: 'ഘ', transliteration: 'gha' },
+            { letter: 'ങ', transliteration: 'nga' },
+            { letter: 'ച', transliteration: 'cha' },
+            { letter: 'ഛ', transliteration: 'chha' },
+            { letter: 'ജ', transliteration: 'ja' },
+            { letter: 'ഝ', transliteration: 'jha' },
+            { letter: 'ഞ', transliteration: 'nya' },
+            { letter: 'ട', transliteration: 'ta' },
+            { letter: 'ഠ', transliteration: 'tha' },
+            { letter: 'ഡ', transliteration: 'da' },
+            { letter: 'ഢ', transliteration: 'dha' },
+            { letter: 'ണ', transliteration: 'na' },
+            { letter: 'ത', transliteration: 'tha' },
+            { letter: 'ഥ', transliteration: 'thha' },
+            { letter: 'ദ', transliteration: 'da' },
+            { letter: 'ധ', transliteration: 'dha' },
+            { letter: 'ന', transliteration: 'na' },
+            { letter: 'പ', transliteration: 'pa' },
+            { letter: 'ഫ', transliteration: 'pha' },
+            { letter: 'ബ', transliteration: 'ba' },
+            { letter: 'ഭ', transliteration: 'bha' },
+            { letter: 'മ', transliteration: 'ma' },
+            { letter: 'യ', transliteration: 'ya' },
+            { letter: 'ര', transliteration: 'ra' },
+            { letter: 'ല', transliteration: 'la' },
+            { letter: 'വ', transliteration: 'va' },
+            { letter: 'ശ', transliteration: 'sha' },
+            { letter: 'ഷ', transliteration: 'ssa' },
+            { letter: 'സ', transliteration: 'sa' },
+            { letter: 'ഹ', transliteration: 'ha' },
+            { letter: 'ള', transliteration: 'lla' },
+            { letter: 'ഴ', transliteration: 'zha' },
+            { letter: 'റ', transliteration: 'rra' }
+        ];
+
+        // Malayalam words with translations
+        const malayalamWords = [
+            { word: 'നമസ്കാരം', translation: 'Hello' },
+            { word: 'നന്ദി', translation: 'Thank you' },
+            { word: 'സുപ്രഭാതം', translation: 'Good morning' },
+            { word: 'ശുഭ രാത്രി', translation: 'Good night' },
+            { word: 'എങ്ങനെ ഉണ്ട്', translation: 'How are you' },
+            { word: 'വിട', translation: 'Goodbye' },
+            { word: 'അതെ', translation: 'Yes' },
+            { word: 'ഇല്ല', translation: 'No' },
+            { word: 'ക്ഷമിക്കണം', translation: 'Sorry' },
+            { word: 'ദയവായി', translation: 'Please' },
+            { word: 'സ്വാഗതം', translation: 'Welcome' },
+            { word: 'സന്തോഷമായിരിക്കൂ', translation: 'Be happy' },
+            { word: 'ആശംസകൾ', translation: 'Best wishes' },
+            { word: 'അഭിനന്ദനങ്ങൾ', translation: 'Congratulations' },
+            { word: 'നിങ്ങളുടെ പേരെന്താണ്', translation: 'What is your name' },
+            { word: 'എനിക്ക് വിശക്കുന്നു', translation: 'I am hungry' },
+            { word: 'വെള്ളം വേണം', translation: 'I want water' },
+            { word: 'എത്രയാണ്', translation: 'How much is it' },
+            { word: 'എവിടെയാണ്', translation: 'Where is it' },
+            { word: 'മനസ്സിലായില്ല', translation: 'I dont understand' },
+            { word: 'വീണ്ടും കാണാം', translation: 'See you later' },
+            { word: 'എങ്ങനെ പോകുന്നു', translation: 'How are you doing' },
+            { word: 'വളരെ നല്ലത്', translation: 'Very good' },
+            { word: 'സഹായിക്കൂ', translation: 'Help me' },
+            { word: 'വേഗം', translation: 'Hurry up' }
+        ];
+
+        // Word lists for each language
+        const hindiWords = [
+            { word: 'नमस्ते', translation: 'Hello' },
+            { word: 'धन्यवाद', translation: 'Thank you' },
+            { word: 'शुभ प्रभात', translation: 'Good morning' },
+            { word: 'शुभ रात्रि', translation: 'Good night' },
+            { word: 'कैसे हैं', translation: 'How are you' },
+            { word: 'अलविदा', translation: 'Goodbye' },
+            { word: 'हाँ', translation: 'Yes' },
+            { word: 'नहीं', translation: 'No' },
+            { word: 'माफ़ कीजिए', translation: 'Sorry' },
+            { word: 'कृपया', translation: 'Please' },
+            { word: 'स्वागत है', translation: 'Welcome' },
+            { word: 'खुश रहो', translation: 'Be happy' },
+            { word: 'शुभकामनाएं', translation: 'Best wishes' },
+            { word: 'बधाई हो', translation: 'Congratulations' },
+            { word: 'आपका नाम क्या है', translation: 'What is your name' },
+            { word: 'मैं भूखा हूँ', translation: 'I am hungry' },
+            { word: 'पानी पीना है', translation: 'I want water' },
+            { word: 'कितना है', translation: 'How much is it' },
+            { word: 'कहाँ है', translation: 'Where is it' },
+            { word: 'समझ नहीं आया', translation: 'I dont understand' },
+            { word: 'फिर मिलेंगे', translation: 'See you later' },
+            { word: 'क्या हाल है', translation: 'How are you doing' },
+            { word: 'बहुत अच्छा', translation: 'Very good' },
+            { word: 'मदद करो', translation: 'Help me' },
+            { word: 'जल्दी करो', translation: 'Hurry up' }
+        ];
+
+        const gujaratiWords = [
+            { word: 'નમસ્તે', translation: 'Hello' },
+            { word: 'ધન્યવાદ', translation: 'Thank you' },
+            { word: 'શુભ પ્રભાત', translation: 'Good morning' },
+            { word: 'શુભ રાત્રી', translation: 'Good night' },
+            { word: 'કેમ છો', translation: 'How are you' },
+            { word: 'આવજો', translation: 'Goodbye' },
+            { word: 'હા', translation: 'Yes' },
+            { word: 'ના', translation: 'No' },
+            { word: 'માફ કરશો', translation: 'Sorry' },
+            { word: 'કૃપા કરી', translation: 'Please' },
+            { word: 'સ્વાગત છે', translation: 'Welcome' },
+            { word: 'ખુશ રહો', translation: 'Be happy' },
+            { word: 'શુભકામનાઓ', translation: 'Best wishes' },
+            { word: 'અભિનંદન', translation: 'Congratulations' },
+            { word: 'તમારું નામ શું છે', translation: 'What is your name' },
+            { word: 'મને ભૂખ લાગી છે', translation: 'I am hungry' },
+            { word: 'પાણી જોઈએ છે', translation: 'I want water' },
+            { word: 'કેટલું છે', translation: 'How much is it' },
+            { word: 'ક્યાં છે', translation: 'Where is it' },
+            { word: 'સમજાયું નહીં', translation: 'I dont understand' },
+            { word: 'ફરી મળીશું', translation: 'See you later' },
+            { word: 'કેમ ચાલે છે', translation: 'How are you doing' },
+            { word: 'ખૂબ સરસ', translation: 'Very good' },
+            { word: 'મને મદદ કરો', translation: 'Help me' },
+            { word: 'જલદી કરો', translation: 'Hurry up' }
+        ];
+
+        const punjabiWords = [
+            { word: 'ਸਤ ਸ੍ਰੀ ਅਕਾਲ', translation: 'Hello' },
+            { word: 'ਧੰਨਵਾਦ', translation: 'Thank you' },
+            { word: 'ਸ਼ੁਭ ਸਵੇਰ', translation: 'Good morning' },
+            { word: 'ਸ਼ੁਭ ਰਾਤ', translation: 'Good night' },
+            { word: 'ਕਿਵੇਂ ਹੋ', translation: 'How are you' },
+            { word: 'ਅਲਵਿਦਾ', translation: 'Goodbye' },
+            { word: 'ਹਾਂ', translation: 'Yes' },
+            { word: 'ਨਹੀਂ', translation: 'No' },
+            { word: 'ਮਾਫ਼ ਕਰੋ', translation: 'Sorry' },
+            { word: 'ਕਿਰਪਾ ਕਰਕੇ', translation: 'Please' },
+            { word: 'ਜੀ ਆਇਆਂ ਨੂੰ', translation: 'Welcome' },
+            { word: 'ਖੁਸ਼ ਰਹੋ', translation: 'Be happy' },
+            { word: 'ਸ਼ੁਭਕਾਮਨਾਵਾਂ', translation: 'Best wishes' },
+            { word: 'ਵਧਾਈਆਂ', translation: 'Congratulations' },
+            { word: 'ਤੁਹਾਡਾ ਨਾਮ ਕੀ ਹੈ', translation: 'What is your name' },
+            { word: 'ਮੈਨੂੰ ਭੁੱਖ ਲੱਗੀ ਹੈ', translation: 'I am hungry' },
+            { word: 'ਪਾਣੀ ਚਾਹੀਦਾ ਹੈ', translation: 'I want water' },
+            { word: 'ਕਿੰਨਾ ਹੈ', translation: 'How much is it' },
+            { word: 'ਕਿੱਥੇ ਹੈ', translation: 'Where is it' },
+            { word: 'ਸਮਝ ਨਹੀਂ ਆਈ', translation: 'I dont understand' },
+            { word: 'ਫਿਰ ਮਿਲਾਂਗੇ', translation: 'See you later' },
+            { word: 'ਕੀ ਹਾਲ ਹੈ', translation: 'How are you doing' },
+            { word: 'ਬਹੁਤ ਵਧੀਆ', translation: 'Very good' },
+            { word: 'ਮੇਰੀ ਮਦਦ ਕਰੋ', translation: 'Help me' },
+            { word: 'ਜਲਦੀ ਕਰੋ', translation: 'Hurry up' }
+        ];
+
         let currentLevel = 1;
         let startTime, timeSpent = 0, totalLetters = 0, totalTime = 0, levelLetterCount = 0;
         let isPaused = false;
@@ -327,8 +531,10 @@
         let currentOptions = [];
         let lastLetterTrans = '';
 
-        const levelThreshold = 20;
-        const promotionTime = 0.5;
+        const levelThreshold = 10;
+        const promotionTime = 5.0;
+
+        let isGameStarted = false;
 
         function getRandomLetter() {
             if (currentLevel === 1) {
@@ -344,57 +550,55 @@
                     const randomVowel = punjabiVowels[Math.floor(Math.random() * punjabiVowels.length)];
                     const randomConsonant = punjabiConsonants[Math.floor(Math.random() * punjabiConsonants.length)];
                     return Math.random() > 0.5 ? randomVowel : randomConsonant;
+                } else if (currentLanguage === 'malayalam') {
+                    return malayalamLetters[Math.floor(Math.random() * malayalamLetters.length)].letter;
                 }
-            } else if (currentLevel === 2) {
-                if (currentLanguage === 'hindi') {
-                    const randomConsonant = hindiConsonants[Math.floor(Math.random() * hindiConsonants.length)];
-                    const randomVowelIndex = Math.floor(Math.random() * hindiVowels.length);
-                    const matra = hindiVowelMatras[randomVowelIndex];
-                    return Math.random() > 0.5 ? randomConsonant + matra : hindiVowels[randomVowelIndex];
-                } else if (currentLanguage === 'gujarati') {
-                    const randomConsonant = gujaratiConsonants[Math.floor(Math.random() * gujaratiConsonants.length)];
-                    const randomVowelIndex = Math.floor(Math.random() * gujaratiVowels.length);
-                    const matra = gujaratiVowelMatras[randomVowelIndex];
-                    return Math.random() > 0.5 ? randomConsonant + matra : gujaratiVowels[randomVowelIndex];
-                } else if (currentLanguage === 'punjabi') {
-                    const randomConsonant = punjabiConsonants[Math.floor(Math.random() * punjabiConsonants.length)];
-                    const randomVowelIndex = Math.floor(Math.random() * punjabiVowels.length);
-                    const matra = punjabiVowelMatras[randomVowelIndex];
-                    return Math.random() > 0.5 ? randomConsonant + matra : punjabiVowels[randomVowelIndex];
-                }
-            } else if (currentLevel === 3) {
-                if (currentLanguage === 'hindi') {
-                    const randomConsonant = hindiConsonants[Math.floor(Math.random() * hindiConsonants.length)];
-                    const randomVowelIndex = Math.floor(Math.random() * hindiVowels.length);
-                    const matra = hindiVowelMatras[randomVowelIndex];
-                    if (Math.random() > 0.7) {
-                        const randomConjunct = hindiConjuncts[Math.floor(Math.random() * hindiConjuncts.length)];
-                        return randomConjunct + matra;
-                    } else {
-                        return randomConsonant + matra;
+            } else if (currentLevel >= 2) {
+                // For level 2 and above, mix letters and words
+                if (Math.random() > 0.5) {
+                    // Show a word
+                    let words;
+                    switch(currentLanguage) {
+                        case 'hindi':
+                            words = hindiWords;
+                            break;
+                        case 'gujarati':
+                            words = gujaratiWords;
+                            break;
+                        case 'punjabi':
+                            words = punjabiWords;
+                            break;
+                        case 'malayalam':
+                            words = malayalamWords;
+                            break;
                     }
-                } else if (currentLanguage === 'gujarati') {
-                    const randomConsonant = gujaratiConsonants[Math.floor(Math.random() * gujaratiConsonants.length)];
-                    const randomVowelIndex = Math.floor(Math.random() * gujaratiVowels.length);
-                    const matra = gujaratiVowelMatras[randomVowelIndex];
-                    if (Math.random() > 0.7) {
-                        const randomConjunct = gujaratiConjuncts[Math.floor(Math.random() * gujaratiConjuncts.length)];
-                        return randomConjunct + matra;
-                    } else {
-                        return randomConsonant + matra;
-                    }
-                } else if (currentLanguage === 'punjabi') {
-                    const randomConsonant = punjabiConsonants[Math.floor(Math.random() * punjabiConsonants.length)];
-                    const randomVowelIndex = Math.floor(Math.random() * punjabiVowels.length);
-                    const matra = punjabiVowelMatras[randomVowelIndex];
-                    if (Math.random() > 0.7) {
-                        const randomConjunct = punjabiConjuncts[Math.floor(Math.random() * punjabiConjuncts.length)];
-                        return randomConjunct + matra;
-                    } else {
-                        return randomConsonant + matra;
+                    const randomWord = words[Math.floor(Math.random() * words.length)];
+                    lastLetterTrans = randomWord.translation;
+                    return randomWord.word;
+                } else {
+                    // Show a letter
+                    if (currentLanguage === 'hindi') {
+                        const randomConsonant = hindiConsonants[Math.floor(Math.random() * hindiConsonants.length)];
+                        const randomVowelIndex = Math.floor(Math.random() * hindiVowels.length);
+                        const matra = hindiVowelMatras[randomVowelIndex];
+                        return Math.random() > 0.5 ? randomConsonant + matra : hindiVowels[randomVowelIndex];
+                    } else if (currentLanguage === 'gujarati') {
+                        const randomConsonant = gujaratiConsonants[Math.floor(Math.random() * gujaratiConsonants.length)];
+                        const randomVowelIndex = Math.floor(Math.random() * gujaratiVowels.length);
+                        const matra = gujaratiVowelMatras[randomVowelIndex];
+                        return Math.random() > 0.5 ? randomConsonant + matra : gujaratiVowels[randomVowelIndex];
+                    } else if (currentLanguage === 'punjabi') {
+                        const randomConsonant = punjabiConsonants[Math.floor(Math.random() * punjabiConsonants.length)];
+                        const randomVowelIndex = Math.floor(Math.random() * punjabiVowels.length);
+                        const matra = punjabiVowelMatras[randomVowelIndex];
+                        return Math.random() > 0.5 ? randomConsonant + matra : punjabiVowels[randomVowelIndex];
+                    } else if (currentLanguage === 'malayalam') {
+                        const randomLetter = malayalamLetters[Math.floor(Math.random() * malayalamLetters.length)].letter;
+                        return randomLetter;
                     }
                 }
             }
+            return '';
         }
 
         function getTransliteration(letter) {
@@ -425,40 +629,72 @@
                 
                 const conjunctIndex = punjabiConjuncts.indexOf(letter);
                 if (conjunctIndex !== -1) return punjabiConjunctTrans[conjunctIndex];
+            } else if (currentLanguage === 'malayalam') {
+                const letterIndex = malayalamLetters.findIndex(l => l.letter === letter);
+                if (letterIndex !== -1) return malayalamLetters[letterIndex].transliteration;
             }
             return '';
         }
 
         function getRandomOptions(correctLetter) {
-            const correctTrans = getTransliteration(correctLetter);
-            lastLetterTrans = correctTrans;
-            
-            // Get all possible transliterations
-            let allTrans = [];
-            if (currentLanguage === 'hindi') {
-                allTrans = [...hindiVowelTrans, ...hindiConsonantTrans, ...hindiConjunctTrans];
-            } else if (currentLanguage === 'gujarati') {
-                allTrans = [...gujaratiVowelTrans, ...gujaratiConsonantTrans, ...gujaratiConjunctTrans];
-            } else if (currentLanguage === 'punjabi') {
-                allTrans = [...punjabiVowelTrans, ...punjabiConsonantTrans, ...punjabiConjunctTrans];
-            }
-            
-            // Remove the correct transliteration from the pool
-            const transPool = allTrans.filter(trans => trans !== correctTrans);
-            
-            // Get two random wrong options
-            const wrongOptions = [];
-            while (wrongOptions.length < 2) {
-                const randomIndex = Math.floor(Math.random() * transPool.length);
-                const randomTrans = transPool[randomIndex];
-                if (!wrongOptions.includes(randomTrans)) {
-                    wrongOptions.push(randomTrans);
+            // If we're showing a word, use its translation
+            if (currentLevel >= 2 && lastLetterTrans.includes(' ')) {
+                // For words, use other word translations as options
+                let words;
+                switch(currentLanguage) {
+                    case 'hindi':
+                        words = hindiWords;
+                        break;
+                    case 'gujarati':
+                        words = gujaratiWords;
+                        break;
+                    case 'punjabi':
+                        words = punjabiWords;
+                        break;
+                    case 'malayalam':
+                        words = malayalamWords;
+                        break;
                 }
+                const options = [lastLetterTrans];
+                while (options.length < 3) {
+                    const randomWord = words[Math.floor(Math.random() * words.length)].translation;
+                    if (!options.includes(randomWord)) {
+                        options.push(randomWord);
+                    }
+                }
+                return options.sort(() => Math.random() - 0.5);
+            } else {
+                // For letters, use transliterations
+                const correctTrans = getTransliteration(correctLetter);
+                lastLetterTrans = correctTrans;
+                
+                // Get all possible transliterations
+                let allTrans = [];
+                if (currentLanguage === 'hindi') {
+                    allTrans = [...hindiVowelTrans, ...hindiConsonantTrans, ...hindiConjunctTrans];
+                } else if (currentLanguage === 'gujarati') {
+                    allTrans = [...gujaratiVowelTrans, ...gujaratiConsonantTrans, ...gujaratiConjunctTrans];
+                } else if (currentLanguage === 'punjabi') {
+                    allTrans = [...punjabiVowelTrans, ...punjabiConsonantTrans, ...punjabiConjunctTrans];
+                } else if (currentLanguage === 'malayalam') {
+                    allTrans = [...malayalamLetters.map(l => l.transliteration)];
+                }
+                
+                // Remove the correct transliteration from the pool
+                const transPool = allTrans.filter(trans => trans !== correctTrans);
+                
+                // Get two random wrong options
+                const wrongOptions = [];
+                while (wrongOptions.length < 2) {
+                    const randomIndex = Math.floor(Math.random() * transPool.length);
+                    const randomTrans = transPool[randomIndex];
+                    if (!wrongOptions.includes(randomTrans)) {
+                        wrongOptions.push(randomTrans);
+                    }
+                }
+                
+                return [correctTrans, ...wrongOptions].sort(() => Math.random() - 0.5);
             }
-            
-            // Combine correct and wrong options, then shuffle
-            const options = [correctTrans, ...wrongOptions];
-            return options.sort(() => Math.random() - 0.5);
         }
 
         function displayRandomLetter() {
@@ -526,7 +762,7 @@
                 totalLetters = 0;
                 totalTime = 0;
                 document.getElementById('level').textContent = `Level ${currentLevel}`;
-                document.getElementById('targetTime').textContent = currentLevel < 3 ? '0.50' : 'N/A';
+                document.getElementById('targetTime').textContent = currentLevel < 3 ? '5.00' : 'N/A';
                 changeBackground();
             }
         }
@@ -603,11 +839,13 @@
         // Modify the language selector event listener
         document.getElementById('languageSelector').addEventListener('change', function(e) {
             currentLanguage = e.target.value;
-            correctCount = 0;
-            incorrectCount = 0;
-            document.getElementById('correctCount').textContent = '0';
-            document.getElementById('incorrectCount').textContent = '0';
-            displayRandomLetter();
+            if (isGameStarted) {
+                correctCount = 0;
+                incorrectCount = 0;
+                document.getElementById('correctCount').textContent = '0';
+                document.getElementById('incorrectCount').textContent = '0';
+                displayRandomLetter();
+            }
         });
 
         // Modify the reset button event listener
@@ -628,8 +866,20 @@
             document.querySelector('.progress-fill').style.width = `${progress}%`;
         }
 
-        // Start the game
-        displayRandomLetter();
+        function startGame() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('gameContainer').style.display = 'block';
+            isGameStarted = true;
+            displayRandomLetter();
+        }
+
+        // Add start button event listener
+        document.getElementById('startButton').addEventListener('click', startGame);
+
+        // Initialize the game
+        document.addEventListener('DOMContentLoaded', function() {
+            displayRandomLetter();
+        });
     </script>
 </body>
 </html>
