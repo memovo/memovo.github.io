@@ -150,3 +150,68 @@ function getRandomOptions(correctLetter) {
     // Combine & shuffle
     return [correctTrans, ...wrongOptions].sort(() => Math.random() - 0.5);
 }
+
+// Reference Guide Modal Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('referenceModal');
+    const referenceButton = document.getElementById('referenceButton');
+    const closeButton = document.querySelector('.close-button');
+    const langTabs = document.querySelectorAll('.lang-tab');
+    const languageContents = document.querySelectorAll('.language-content');
+
+    // Open modal
+    referenceButton.addEventListener('click', function() {
+        modal.style.display = 'block';
+        // Pause the game when reference guide is open
+        if (typeof pauseGame === 'function') {
+            pauseGame();
+        }
+    });
+
+    // Close modal when clicking the X
+    closeButton.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && modal.style.display === 'block') {
+            modal.style.display = 'none';
+        }
+    });
+
+    // Handle language tab switching
+    langTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            // Remove active class from all tabs and contents
+            langTabs.forEach(t => t.classList.remove('active'));
+            languageContents.forEach(c => c.classList.remove('active'));
+
+            // Add active class to clicked tab
+            this.classList.add('active');
+
+            // Show corresponding content
+            const lang = this.dataset.lang;
+            document.getElementById(`${lang}-content`).classList.add('active');
+        });
+    });
+
+    // Sync with main language selector
+    const mainLanguageSelector = document.getElementById('languageSelector');
+    if (mainLanguageSelector) {
+        mainLanguageSelector.addEventListener('change', function() {
+            const selectedLang = this.value;
+            const correspondingTab = document.querySelector(`.lang-tab[data-lang="${selectedLang}"]`);
+            if (correspondingTab) {
+                correspondingTab.click();
+            }
+        });
+    }
+});
