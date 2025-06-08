@@ -3,201 +3,254 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learn Indian Scripts - Hindi, Gujarati & Punjabi</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/styles.css">
+    <title>Welcome to Indian Scripts Learning</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #2c3e50;
+        }
+
+        .welcome-container {
+            max-width: 900px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.8em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            color: #34495e;
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        .feature-icon {
+            font-size: 1.8em;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .get-started-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px 60px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px 0 40px 0;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .get-started-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .get-started-btn:active {
+            transform: translateY(1px);
+        }
+
+        .get-started-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #764ba2, #667eea);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .get-started-btn:hover::after {
+            opacity: 1;
+        }
+
+        .get-started-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hindi-preview {
+            font-size: 2.5em;
+            margin: 30px 0;
+            color: #2c3e50;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: slideIn 1s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .welcome-container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2.2em;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .get-started-btn {
+                padding: 18px 45px;
+                font-size: 1.2em;
+                margin: 15px 0 30px 0;
+            }
+
+            .hindi-preview {
+                font-size: 2em;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Personalized greeting placed at the very top -->
-    <h2 id="greeting">Hello, <span id="username">user</span>!</h2>
-    <div class="container">
-        <div id="level">Level 1</div>
-        <select id="languageSelector">
-            <option value="hindi">Hindi</option>
-            <option value="gujarati">Gujarati</option>
-            <option value="punjabi">Punjabi</option>
-            <option value="malayalam">Malayalam</option>
-        </select>
-        <button id="pauseButton">Pause</button>
+    <div class="welcome-container">
+        <div class="logo">भारतीय</div>
+        <h1>Welcome to Indian Script Learning</h1>
+        <p class="subtitle">Master beautiful Indian scripts through an engaging, interactive game designed to make learning fun and effective! Explore the rich diversity of Indian writing systems at your own pace.</p>
 
-        <div id="letter">अ</div>
+        <a href="game.html" class="get-started-btn" id="startButton">
+            <span>Start Learning</span>
+        </a>
 
-        <div class="progress-bar">
-            <div class="progress-fill" style="width: 0%"></div>
-        </div>
+        <div class="hindi-preview">अ आ इ ई उ ऊ ए ऐ ओ औ</div>
 
-        <div id="stats">
-            <p>Time spent guessing: <span id="timer">0.00</span> seconds</p>
-            <p>Average time per letter: <span id="averageTime">0.00</span> seconds | Target: <span id="targetTime">0.50</span> seconds</p>
-        </div>
-
-        <div id="optionsContainer">
-            <button class="option-button" data-index="0"></button>
-            <button class="option-button" data-index="1"></button>
-            <button class="option-button" data-index="2"></button>
-        </div>
-
-        <div id="feedback"></div>
-        <div id="score">Score: <span id="correctCount">0</span> correct, <span id="incorrectCount">0</span> incorrect</div>
-
-        <div class="controls">
-            <button id="resetButton">Reset Progress</button>
-            <button id="referenceButton">Reference Guide</button>
-        </div>
-    </div>
-
-    <!-- Reference Guide Modal -->
-    <div id="referenceModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h2>Script Reference Guide</h2>
-            
-            <div class="language-selector-container">
-                <button class="lang-tab active" data-lang="hindi">Hindi</button>
-                <button class="lang-tab" data-lang="gujarati">Gujarati</button>
-                <button class="lang-tab" data-lang="punjabi">Punjabi</button>
+        <div class="features">
+            <div class="feature-card">
+                <h3><span class="feature-icon">🎮</span> Interactive Learning</h3>
+                <p>Experience a unique game-based approach that keeps you engaged and motivated. Learn at your own pace while having fun!</p>
             </div>
-
-            <div class="reference-content">
-                <!-- Hindi Reference -->
-                <div class="language-content active" id="hindi-content">
-                    <h3>Vowels (स्वर)</h3>
-                    <div class="letter-grid">
-                        <div class="letter-item" data-pronunciation="a"><span>अ</span></div>
-                        <div class="letter-item" data-pronunciation="ā"><span>आ</span></div>
-                        <div class="letter-item" data-pronunciation="i"><span>इ</span></div>
-                        <div class="letter-item" data-pronunciation="ī"><span>ई</span></div>
-                        <div class="letter-item" data-pronunciation="u"><span>उ</span></div>
-                        <div class="letter-item" data-pronunciation="ū"><span>ऊ</span></div>
-                        <div class="letter-item" data-pronunciation="e"><span>ए</span></div>
-                        <div class="letter-item" data-pronunciation="ai"><span>ऐ</span></div>
-                        <div class="letter-item" data-pronunciation="o"><span>ओ</span></div>
-                        <div class="letter-item" data-pronunciation="au"><span>औ</span></div>
-                    </div>
-
-                    <h3>Common Consonants (व्यंजन)</h3>
-                    <div class="letter-grid">
-                        <div class="letter-item" data-pronunciation="ka"><span>क</span></div>
-                        <div class="letter-item" data-pronunciation="kha"><span>ख</span></div>
-                        <div class="letter-item" data-pronunciation="ga"><span>ग</span></div>
-                        <div class="letter-item" data-pronunciation="gha"><span>घ</span></div>
-                        <div class="letter-item" data-pronunciation="cha"><span>च</span></div>
-                        <div class="letter-item" data-pronunciation="chha"><span>छ</span></div>
-                        <div class="letter-item" data-pronunciation="ja"><span>ज</span></div>
-                        <div class="letter-item" data-pronunciation="jha"><span>झ</span></div>
-                        <div class="letter-item" data-pronunciation="ṭa"><span>ट</span></div>
-                        <div class="letter-item" data-pronunciation="ṭha"><span>ठ</span></div>
-                    </div>
-
-                    <h3>Matras (मात्रा)</h3>
-                    <div class="letter-grid">
-                        <div class="letter-item" data-pronunciation="ā"><span>ा</span></div>
-                        <div class="letter-item" data-pronunciation="i"><span>ि</span></div>
-                        <div class="letter-item" data-pronunciation="ī"><span>ी</span></div>
-                        <div class="letter-item" data-pronunciation="u"><span>ु</span></div>
-                        <div class="letter-item" data-pronunciation="ū"><span>ू</span></div>
-                        <div class="letter-item" data-pronunciation="e"><span>े</span></div>
-                        <div class="letter-item" data-pronunciation="ai"><span>ै</span></div>
-                        <div class="letter-item" data-pronunciation="o"><span>ो</span></div>
-                        <div class="letter-item" data-pronunciation="au"><span>ौ</span></div>
-                    </div>
-                </div>
-
-                <!-- Gujarati Reference -->
-                <div class="language-content" id="gujarati-content">
-                    <h3>Vowels (સ્વર)</h3>
-                    <div class="letter-grid">
-                        <div class="letter-item" data-pronunciation="a"><span>અ</span></div>
-                        <div class="letter-item" data-pronunciation="ā"><span>આ</span></div>
-                        <div class="letter-item" data-pronunciation="i"><span>ઇ</span></div>
-                        <div class="letter-item" data-pronunciation="ī"><span>ઈ</span></div>
-                        <div class="letter-item" data-pronunciation="u"><span>ઉ</span></div>
-                        <div class="letter-item" data-pronunciation="ū"><span>ઊ</span></div>
-                        <div class="letter-item" data-pronunciation="e"><span>એ</span></div>
-                        <div class="letter-item" data-pronunciation="ai"><span>ઐ</span></div>
-                        <div class="letter-item" data-pronunciation="o"><span>ઓ</span></div>
-                        <div class="letter-item" data-pronunciation="au"><span>ઔ</span></div>
-                    </div>
-
-                    <h3>Common Consonants (વ્યંજન)</h3>
-                    <div class="letter-grid">
-                        <div class="letter-item" data-pronunciation="ka"><span>ક</span></div>
-                        <div class="letter-item" data-pronunciation="kha"><span>ખ</span></div>
-                        <div class="letter-item" data-pronunciation="ga"><span>ગ</span></div>
-                        <div class="letter-item" data-pronunciation="gha"><span>ઘ</span></div>
-                        <div class="letter-item" data-pronunciation="cha"><span>ચ</span></div>
-                        <div class="letter-item" data-pronunciation="chha"><span>છ</span></div>
-                        <div class="letter-item" data-pronunciation="ja"><span>જ</span></div>
-                        <div class="letter-item" data-pronunciation="jha"><span>ઝ</span></div>
-                        <div class="letter-item" data-pronunciation="ṭa"><span>ટ</span></div>
-                        <div class="letter-item" data-pronunciation="ṭha"><span>ઠ</span></div>
-                    </div>
-
-                    <h3>Matras (માત્રા)</h3>
-                    <div class="letter-grid">
-                        <div class="letter-item" data-pronunciation="ā"><span>ા</span></div>
-                        <div class="letter-item" data-pronunciation="i"><span>િ</span></div>
-                        <div class="letter-item" data-pronunciation="ī"><span>ી</span></div>
-                        <div class="letter-item" data-pronunciation="u"><span>ુ</span></div>
-                        <div class="letter-item" data-pronunciation="ū"><span>ૂ</span></div>
-                        <div class="letter-item" data-pronunciation="e"><span>ે</span></div>
-                        <div class="letter-item" data-pronunciation="ai"><span>ૈ</span></div>
-                        <div class="letter-item" data-pronunciation="o"><span>ો</span></div>
-                        <div class="letter-item" data-pronunciation="au"><span>ૌ</span></div>
-                    </div>
-                </div>
-
-                <!-- Punjabi Reference -->
-                <div class="language-content" id="punjabi-content">
-                    <h3>Vowels (ਸਵਰ)</h3>
-                    <div class="letter-grid">
-                        <div class="letter-item" data-pronunciation="a"><span>ਅ</span></div>
-                        <div class="letter-item" data-pronunciation="ā"><span>ਆ</span></div>
-                        <div class="letter-item" data-pronunciation="i"><span>ਇ</span></div>
-                        <div class="letter-item" data-pronunciation="ī"><span>ਈ</span></div>
-                        <div class="letter-item" data-pronunciation="u"><span>ਉ</span></div>
-                        <div class="letter-item" data-pronunciation="ū"><span>ਊ</span></div>
-                        <div class="letter-item" data-pronunciation="e"><span>ਏ</span></div>
-                        <div class="letter-item" data-pronunciation="ai"><span>ਐ</span></div>
-                        <div class="letter-item" data-pronunciation="o"><span>ਓ</span></div>
-                        <div class="letter-item" data-pronunciation="au"><span>ਔ</span></div>
-                    </div>
-
-                    <h3>Common Consonants (ਵਿਅੰਜਨ)</h3>
-                    <div class="letter-grid">
-                        <div class="letter-item" data-pronunciation="ka"><span>ਕ</span></div>
-                        <div class="letter-item" data-pronunciation="kha"><span>ਖ</span></div>
-                        <div class="letter-item" data-pronunciation="ga"><span>ਗ</span></div>
-                        <div class="letter-item" data-pronunciation="gha"><span>ਘ</span></div>
-                        <div class="letter-item" data-pronunciation="cha"><span>ਚ</span></div>
-                        <div class="letter-item" data-pronunciation="chha"><span>ਛ</span></div>
-                        <div class="letter-item" data-pronunciation="ja"><span>ਜ</span></div>
-                        <div class="letter-item" data-pronunciation="jha"><span>ਝ</span></div>
-                        <div class="letter-item" data-pronunciation="ṭa"><span>ਟ</span></div>
-                        <div class="letter-item" data-pronunciation="ṭha"><span>ਠ</span></div>
-                    </div>
-
-                    <h3>Matras (ਮਾਤਰਾ)</h3>
-                    <div class="letter-grid">
-                        <div class="letter-item" data-pronunciation="ā"><span>ਾ</span></div>
-                        <div class="letter-item" data-pronunciation="i"><span>ਿ</span></div>
-                        <div class="letter-item" data-pronunciation="ī"><span>ੀ</span></div>
-                        <div class="letter-item" data-pronunciation="u"><span>ੁ</span></div>
-                        <div class="letter-item" data-pronunciation="ū"><span>ੂ</span></div>
-                        <div class="letter-item" data-pronunciation="e"><span>ੇ</span></div>
-                        <div class="letter-item" data-pronunciation="ai"><span>ੈ</span></div>
-                        <div class="letter-item" data-pronunciation="o"><span>ੋ</span></div>
-                        <div class="letter-item" data-pronunciation="au"><span>ੌ</span></div>
-                    </div>
-                </div>
+            <div class="feature-card">
+                <h3><span class="feature-icon">📈</span> Progressive Levels</h3>
+                <p>Start with basic characters and gradually advance through increasingly complex combinations. Watch your skills grow!</p>
+            </div>
+            <div class="feature-card">
+                <h3><span class="feature-icon">🌐</span> Multiple Scripts</h3>
+                <p>Explore various Indian scripts and writing systems. A perfect way to discover the rich cultural heritage of Indian languages!</p>
             </div>
         </div>
     </div>
 
-    <!-- Replaced inline JavaScript with external files -->
-    <script src="assets/game-data.js" defer></script>
-    <script src="assets/game-utils.js" defer></script>
-    <script src="assets/game-core.js" defer></script>
-    <script src="assets/game-init.js" defer></script>
+    <script>
+        document.getElementById('startButton').addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.setItem('selectedLanguage', 'hindi');
+            window.location.href = 'game.html';
+        });
+    </script>
 </body>
-</html>
+</html> 

@@ -43,8 +43,9 @@ Each level lasts for 20 letters.  If the player's average response time is under
 ## 🚀 Getting Started
 
 1. **Clone or download** this repository.
-2. Open `index.html` in any modern web browser.
-3. Start clicking (or tapping) the page to generate letters and begin practising!
+2. Open `welcome.html` in any modern web browser.
+3. Select your preferred language (Hindi, Gujarati, or Punjabi) from the dropdown.
+4. Click "Get Started" to begin practising!
 
 No additional setup or dependencies are needed.
 

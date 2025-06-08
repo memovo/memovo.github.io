@@ -2,6 +2,12 @@
    UI Event Bindings & Init
    ========================= */
 
+// Initialize current language from welcome page selection
+let currentLanguage = localStorage.getItem('selectedLanguage') || 'hindi';
+
+// Set the language selector to match the selected language
+document.getElementById('languageSelector').value = currentLanguage;
+
 // Greeting name persistence
 const usernameSpan = document.getElementById('username');
 
