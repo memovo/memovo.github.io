@@ -40,6 +40,10 @@ function getRandomLetter() {
             const randomVowel = punjabiVowels[Math.floor(Math.random() * punjabiVowels.length)];
             const randomConsonant = punjabiConsonants[Math.floor(Math.random() * punjabiConsonants.length)];
             return Math.random() > 0.5 ? randomVowel : randomConsonant;
+        } else if (currentLanguage === 'malayalam') {
+            const randomVowel = malayalamVowels[Math.floor(Math.random() * malayalamVowels.length)];
+            const randomConsonant = malayalamConsonants[Math.floor(Math.random() * malayalamConsonants.length)];
+            return Math.random() > 0.5 ? randomVowel : randomConsonant;
         }
     } else if (currentLevel === 2) {
         if (currentLanguage === 'hindi') {
@@ -57,6 +61,11 @@ function getRandomLetter() {
             const randomVowelIndex = Math.floor(Math.random() * punjabiVowels.length);
             const matra = punjabiVowelMatras[randomVowelIndex];
             return Math.random() > 0.5 ? randomConsonant + matra : punjabiVowels[randomVowelIndex];
+        } else if (currentLanguage === 'malayalam') {
+            const randomConsonant = malayalamConsonants[Math.floor(Math.random() * malayalamConsonants.length)];
+            const randomVowelIndex = Math.floor(Math.random() * malayalamVowels.length);
+            const matra = malayalamVowelMatras[randomVowelIndex];
+            return Math.random() > 0.5 ? randomConsonant + matra : malayalamVowels[randomVowelIndex];
         }
     } else if (currentLevel === 3) {
         if (currentLanguage === 'hindi') {
@@ -83,6 +92,15 @@ function getRandomLetter() {
             const matra = punjabiVowelMatras[randomVowelIndex];
             if (Math.random() > 0.7) {
                 const randomConjunct = punjabiConjuncts[Math.floor(Math.random() * punjabiConjuncts.length)];
+                return randomConjunct + matra;
+            }
+            return randomConsonant + matra;
+        } else if (currentLanguage === 'malayalam') {
+            const randomConsonant = malayalamConsonants[Math.floor(Math.random() * malayalamConsonants.length)];
+            const randomVowelIndex = Math.floor(Math.random() * malayalamVowels.length);
+            const matra = malayalamVowelMatras[randomVowelIndex];
+            if (Math.random() > 0.7) {
+                const randomConjunct = malayalamConjuncts[Math.floor(Math.random() * malayalamConjuncts.length)];
                 return randomConjunct + matra;
             }
             return randomConsonant + matra;
@@ -119,6 +137,15 @@ function getTransliteration(letter) {
 
         const conjunctIndex = punjabiConjuncts.indexOf(letter);
         if (conjunctIndex !== -1) return punjabiConjunctTrans[conjunctIndex];
+    } else if (currentLanguage === 'malayalam') {
+        const vowelIndex = malayalamVowels.indexOf(letter);
+        if (vowelIndex !== -1) return malayalamVowelTrans[vowelIndex];
+
+        const consonantIndex = malayalamConsonants.indexOf(letter);
+        if (consonantIndex !== -1) return malayalamConsonantTrans[consonantIndex];
+
+        const conjunctIndex = malayalamConjuncts.indexOf(letter);
+        if (conjunctIndex !== -1) return malayalamConjunctTrans[conjunctIndex];
     }
     return '';
 }
@@ -135,6 +162,8 @@ function getRandomOptions(correctLetter) {
         allTrans = [...gujaratiVowelTrans, ...gujaratiConsonantTrans, ...gujaratiConjunctTrans];
     } else if (currentLanguage === 'punjabi') {
         allTrans = [...punjabiVowelTrans, ...punjabiConsonantTrans, ...punjabiConjunctTrans];
+    } else if (currentLanguage === 'malayalam') {
+        allTrans = [...malayalamVowelTrans, ...malayalamConsonantTrans, ...malayalamConjunctTrans];
     }
 
     // Remove correct answer from pool
