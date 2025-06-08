@@ -44,9 +44,18 @@
             left: 10px;
             font-size: 1.2rem;
         }
+        #greeting {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
+    <div id="greeting"></div>
     <div id="letter">अ</div>
 
     <div id="stats">
@@ -55,7 +64,7 @@
     </div>
 
     <div id="level">Level 1</div>
-    
+
     <button id="resetButton">Reset Average</button>
     <button id="pauseButton">Pause</button>
 
@@ -74,6 +83,40 @@
 
         const levelThreshold = 20; // Letters per level before promotion check
         const promotionTime = 0.5; // Time threshold to promote to next level
+
+        // Greeting functionality
+        const DEFAULT_NAME = 'User';
+
+        function updateGreeting(name) {
+            const greetingEl = document.getElementById('greeting');
+            greetingEl.innerHTML = `Welcome, <span id="usernameSpan" style="text-decoration: underline; cursor: pointer;">${name}</span>!`;
+
+            const usernameSpan = document.getElementById('usernameSpan');
+            usernameSpan.addEventListener('click', () => {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.value = name;
+                input.style.fontSize = '1.4rem';
+                input.style.fontWeight = 'bold';
+
+                greetingEl.replaceChild(input, usernameSpan);
+                input.focus();
+                input.select();
+
+                function save() {
+                    const newName = input.value.trim() || DEFAULT_NAME;
+                    localStorage.setItem('username', newName);
+                    updateGreeting(newName);
+                }
+
+                input.addEventListener('blur', save);
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        save();
+                    }
+                });
+            });
+        }
 
         function getRandomHindiLetter() {
             if (currentLevel === 1) {
@@ -186,7 +229,9 @@
             document.getElementById('averageTime').textContent = '0.00';
         });
 
-        // Start the timer for the initial run
+        // Greet user and start the timer for the initial run
+        const storedName = localStorage.getItem('username') || DEFAULT_NAME;
+        updateGreeting(storedName);
         startTimer();
 
         function startTimer() {
