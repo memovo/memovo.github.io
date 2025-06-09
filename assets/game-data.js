@@ -55,5 +55,5 @@ let incorrectCount = 0;
 let currentOptions = [];
 let lastLetterTrans = '';
 
-const levelThreshold = 20;
-const promotionTime = 0.5;
+const levelThreshold = 5;
+const promotionTime = 8.0;

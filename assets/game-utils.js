@@ -19,7 +19,7 @@ function updateLevelDisplay() {
     }
     const targetElem = document.getElementById('targetTime');
     if (targetElem) {
-        targetElem.textContent = currentLevel < 3 ? '0.50' : 'N/A';
+        targetElem.textContent = currentLevel < 3 ? '5.00' : 'N/A';
     }
 }
 
