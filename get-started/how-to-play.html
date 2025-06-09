@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Play - Learn Indian Scripts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --background-color: #f8f9fa;
+            --card-background: #ffffff;
+            --text-color: #2c3e50;
+            --border-radius: 12px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem 0;
+            background-color: var(--card-background);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        .subtitle {
+            color: var(--text-color);
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+        }
+
+        .card {
+            background-color: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .card h2 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .level-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .level-card {
+            background-color: var(--card-background);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .level-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .level-card.level-1 {
+            border-color: var(--primary-color);
+        }
+
+        .level-card.level-2 {
+            border-color: var(--success-color);
+        }
+
+        .level-card.level-3 {
+            border-color: var(--error-color);
+        }
+
+        .level-card h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .level-icon {
+            font-size: 1.5rem;
+        }
+
+        .level-target {
+            font-weight: 500;
+            color: var(--success-color);
+            margin: 1rem 0;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+        }
+
+        .feature-list li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .feature-list li:before {
+            content: "✓";
+            color: var(--success-color);
+            position: absolute;
+            left: 0;
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .control-item {
+            background-color: var(--card-background);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .control-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .tip-box {
+            background-color: rgba(74, 144, 226, 0.1);
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .level-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .controls-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>How to Play</h1>
+            <p class="subtitle">Learn the game mechanics and master Indian scripts through interactive practice</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="../index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Get Started
+        </a>
+
+        <div class="card">
+            <h2>Game Overview</h2>
+            <p>Learn Indian Scripts is an interactive game designed to help you master reading Indian scripts through practice and repetition. The game adapts to your skill level and provides immediate feedback to help you improve.</p>
+            
+            <div class="tip-box">
+                <strong>Pro Tip:</strong> Regular practice is key to mastering any script. Try to play for at least 10-15 minutes daily for the best results.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Game Levels</h2>
+            <div class="level-grid">
+                <div class="level-card level-1">
+                    <h3>
+                        <i class="fas fa-star level-icon"></i>
+                        Level 1: Basics
+                    </h3>
+                    <p>Start your journey with fundamental characters</p>
+                    <div class="level-target">Target: 0.50 seconds per letter</div>
+                    <ul class="feature-list">
+                        <li>Independent vowels</li>
+                        <li>Basic consonants</li>
+                        <li>Simple recognition</li>
+                        <li>20 letters per level</li>
+                    </ul>
+                </div>
+
+                <div class="level-card level-2">
+                    <h3>
+                        <i class="fas fa-star level-icon"></i>
+                        <i class="fas fa-star level-icon"></i>
+                        Level 2: Matras
+                    </h3>
+                    <p>Master vowel diacritics and combinations</p>
+                    <div class="level-target">Target: 0.50 seconds per letter</div>
+                    <ul class="feature-list">
+                        <li>Vowel diacritics</li>
+                        <li>Consonant-vowel combinations</li>
+                        <li>Complex recognition</li>
+                        <li>20 letters per level</li>
+                    </ul>
+                </div>
+
+                <div class="level-card level-3">
+                    <h3>
+                        <i class="fas fa-star level-icon"></i>
+                        <i class="fas fa-star level-icon"></i>
+                        <i class="fas fa-star level-icon"></i>
+                        Level 3: Advanced
+                    </h3>
+                    <p>Challenge yourself with complex combinations</p>
+                    <div class="level-target">Free play mode</div>
+                    <ul class="feature-list">
+                        <li>Conjunct consonants</li>
+                        <li>Complex combinations</li>
+                        <li>Advanced recognition</li>
+                        <li>Unlimited practice</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Game Controls</h2>
+            <div class="controls-grid">
+                <div class="control-item">
+                    <div class="control-icon">
+                        <i class="fas fa-keyboard"></i>
+                    </div>
+                    <h3>Multiple Choice</h3>
+                    <p>Click on the correct transliteration for each character</p>
+                </div>
+
+                <div class="control-item">
+                    <div class="control-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <h3>Voice Input</h3>
+                    <p>Speak the transliteration using your microphone</p>
+                </div>
+
+                <div class="control-item">
+                    <div class="control-icon">
+                        <i class="fas fa-pause"></i>
+                    </div>
+                    <h3>Pause/Resume</h3>
+                    <p>Press Space or click the Pause button to take a break</p>
+                </div>
+
+                <div class="control-item">
+                    <div class="control-icon">
+                        <i class="fas fa-redo"></i>
+                    </div>
+                    <h3>Reset Progress</h3>
+                    <p>Start over with the Reset button when needed</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Progress Tracking</h2>
+            <p>The game tracks your performance through several metrics:</p>
+            <ul class="feature-list">
+                <li>Average time per letter</li>
+                <li>Correct and incorrect answers</li>
+                <li>Level progression</li>
+                <li>Overall accuracy</li>
+            </ul>
+            <div class="tip-box">
+                <strong>Remember:</strong> Focus on accuracy first, then speed. It's better to take a little longer and get it right than to rush and make mistakes.
+            </div>
+        </div>
+
+        <div class="card" style="text-align: center;">
+            <h2>Ready to Start Learning?</h2>
+            <p>Begin your journey to mastering Indian scripts today!</p>
+            <a href="../game.html" class="cta-button">
+                <i class="fas fa-play"></i> Start Playing Now
+            </a>
+        </div>
+    </div>
+</body>
+</html> 
