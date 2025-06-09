@@ -539,6 +539,8 @@
 
         let currentLevel = 1;
         let startTime, timeSpent = 0, totalLetters = 0, totalTime = 0, levelLetterCount = 0;
+        let levelTotalTime = 0;  // New variable for level-specific time
+        let levelTotalLetters = 0;  // New variable for level-specific letters
         let isPaused = false;
         let lastLetter = '';
         let currentLanguage = 'hindi';
@@ -547,8 +549,8 @@
         let currentOptions = [];
         let lastLetterTrans = '';
 
-        const levelThreshold = 20;
-        const promotionTime = 0.5;
+        const levelThreshold = 10;
+        const promotionTime = 5.0;
 
         function getRandomLetter() {
             if (currentLevel === 1) {
@@ -721,6 +723,8 @@
                 totalTime += timeSpent;
                 totalLetters++;
                 levelLetterCount++;
+                levelTotalTime += timeSpent;  // Add to level-specific time
+                levelTotalLetters++;  // Add to level-specific letters
                 updateAverageTime();
                 checkPromotion();
             }
@@ -728,12 +732,12 @@
         }
 
         function updateAverageTime() {
-            const averageTime = totalTime / totalLetters;
+            const averageTime = levelTotalTime / levelTotalLetters;  // Use level-specific counters
             document.getElementById('averageTime').textContent = averageTime.toFixed(2);
         }
 
         function checkPromotion() {
-            const averageTime = totalTime / totalLetters;
+            const averageTime = levelTotalTime / levelTotalLetters;  // Use level-specific counters
             if (levelLetterCount >= levelThreshold && averageTime < promotionTime) {
                 promoteLevel();
             }
@@ -743,11 +747,12 @@
             if (currentLevel < 3) {
                 currentLevel++;
                 levelLetterCount = 0;
-                totalLetters = 0;
-                totalTime = 0;
+                levelTotalTime = 0;  // Reset level-specific time
+                levelTotalLetters = 0;  // Reset level-specific letters
                 document.getElementById('level').textContent = `Level ${currentLevel}`;
-                document.getElementById('targetTime').textContent = currentLevel < 3 ? '0.50' : 'N/A';
+                document.getElementById('targetTime').textContent = currentLevel < 3 ? '5.00' : 'N/A';
                 changeBackground();
+                saveLevel(currentLanguage, currentLevel);
             }
         }
 
