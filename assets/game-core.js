@@ -50,6 +50,8 @@ function resetTimer() {
         totalTime += timeSpent;
         totalLetters++;
         levelLetterCount++;
+        levelTotalTime += timeSpent;  // Add to level-specific time
+        levelTotalLetters++;  // Add to level-specific letters
         updateAverageTime();
         checkPromotion();
     }
@@ -57,12 +59,12 @@ function resetTimer() {
 }
 
 function updateAverageTime() {
-    const averageTime = totalLetters ? (totalTime / totalLetters) : 0;
+    const averageTime = levelTotalLetters ? (levelTotalTime / levelTotalLetters) : 0;  // Use level-specific counters
     document.getElementById('averageTime').textContent = averageTime.toFixed(2);
 }
 
 function checkPromotion() {
-    const averageTime = totalLetters ? (totalTime / totalLetters) : 0;
+    const averageTime = levelTotalLetters ? (levelTotalTime / levelTotalLetters) : 0;  // Use level-specific counters
     if (levelLetterCount >= levelThreshold && averageTime < promotionTime) {
         promoteLevel();
     }
@@ -73,11 +75,11 @@ function promoteLevel() {
 
     currentLevel++;
     levelLetterCount = 0;
-    totalLetters = 0;
-    totalTime = 0;
+    levelTotalTime = 0;  // Reset level-specific time
+    levelTotalLetters = 0;  // Reset level-specific letters
 
     document.getElementById('level').textContent = `Level ${currentLevel}`;
-    document.getElementById('targetTime').textContent = currentLevel < 3 ? '0.50' : 'N/A';
+    document.getElementById('targetTime').textContent = currentLevel < 3 ? '5.00' : 'N/A';
     changeBackground();
 
     // Persist
@@ -140,6 +142,36 @@ function checkAnswer(selectedOption) {
         incorrectCount++;
         optionButtons[currentOptions.indexOf(selectedOption)].classList.add('incorrect');
         optionButtons[currentOptions.indexOf(lastLetterTrans)].classList.add('correct');
+    }
+
+    document.getElementById('correctCount').textContent = correctCount;
+    document.getElementById('incorrectCount').textContent = incorrectCount;
+
+    setTimeout(displayRandomLetter, 800);
+}
+
+/* =========================
+   Voice Answer Checking
+   ========================= */
+function checkVoiceAnswer(spokenText) {
+    const correctTrans = lastLetterTrans.toLowerCase();
+    const feedback = document.getElementById('feedback');
+    const optionButtons = document.querySelectorAll('.option-button');
+
+    optionButtons.forEach(button => {
+        button.disabled = true;
+    });
+
+    if (spokenText === correctTrans) {
+        feedback.textContent = `Correct! ${lastLetter} is pronounced as "${lastLetterTrans}"`;
+        feedback.className = 'correct-text';
+        correctCount++;
+        optionButtons[currentOptions.indexOf(correctTrans)].classList.add('correct');
+    } else {
+        feedback.textContent = `Incorrect. ${lastLetter} is pronounced as "${lastLetterTrans}"`;
+        feedback.className = 'incorrect-text';
+        incorrectCount++;
+        optionButtons[currentOptions.indexOf(correctTrans)].classList.add('correct');
     }
 
     document.getElementById('correctCount').textContent = correctCount;

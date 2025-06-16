@@ -90,24 +90,19 @@ document.getElementById('resetButton').addEventListener('click', () => {
 
 // Initialize the game when the DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize voice recognition
-    const voiceRecognition = new VoiceRecognition();
-    
-    // Set up the voice recognition callback
-    voiceRecognition.setOnAnswerCallback(function(spokenText) {
-        if (!voiceRecognition.isPaused()) {
-            checkAnswer(spokenText);
-        }
-    });
+    // Initialize voice recognition (legacy support)
+    initSpeechRecognition();
 
-loadUsername();
-currentLevel = getSavedLevel(currentLanguage);
-updateLevelDisplay();
-changeBackground();
-initKeyboardShortcuts();
-addKeyboardHints();
-
-    // Initialize other game components
+    // Initialize game components
     loadUsername();
+    currentLevel = getSavedLevel(currentLanguage);
+    updateLevelDisplay();
+    changeBackground();
+    
+    // Initialize keyboard shortcuts
+    initKeyboardShortcuts();
+    addKeyboardHints();
+    
+    // Start the game
     displayRandomLetter();
 });

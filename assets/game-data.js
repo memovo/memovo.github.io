@@ -47,6 +47,8 @@ const malayalamConjunctTrans = ['kka', 'ksha', 'gga', 'gna', 'gma', 'gna', 'gna'
    ========================= */
 let currentLevel = 1;
 let startTime, timeSpent = 0, totalLetters = 0, totalTime = 0, levelLetterCount = 0;
+let levelTotalTime = 0;  // New variable for level-specific time
+let levelTotalLetters = 0;  // New variable for level-specific letters
 let isPaused = false;
 let lastLetter = '';
 let currentLanguage = 'hindi';
@@ -55,5 +57,5 @@ let incorrectCount = 0;
 let currentOptions = [];
 let lastLetterTrans = '';
 
-const levelThreshold = 5;
-const promotionTime = 8.0;
+const levelThreshold = 10;
+const promotionTime = 5.0;

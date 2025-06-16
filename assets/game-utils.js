@@ -111,6 +111,7 @@ function getRandomLetter() {
 
 function getTransliteration(letter) {
     if (currentLanguage === 'hindi') {
+        // First check if it's a single character (vowel, consonant, or conjunct)
         const vowelIndex = hindiVowels.indexOf(letter);
         if (vowelIndex !== -1) return hindiVowelTrans[vowelIndex];
 
@@ -119,7 +120,59 @@ function getTransliteration(letter) {
 
         const conjunctIndex = hindiConjuncts.indexOf(letter);
         if (conjunctIndex !== -1) return hindiConjunctTrans[conjunctIndex];
+
+        // NEW: Handle compound letters (consonant + matra combinations)
+        if (letter.length > 1) {
+            // Try to break down compound letter
+            for (let i = 0; i < hindiConsonants.length; i++) {
+                const consonant = hindiConsonants[i];
+                if (letter.startsWith(consonant)) {
+                    const remainingPart = letter.substring(consonant.length);
+                    
+                    // Check if remaining part is a matra
+                    const matraIndex = hindiVowelMatras.indexOf(remainingPart);
+                    if (matraIndex !== -1) {
+                        const consonantTrans = hindiConsonantTrans[i];
+                        const matraTrans = hindiVowelMatraTrans[matraIndex];
+                        
+                        // Combine consonant + matra transliterations
+                        if (matraIndex === 0) {
+                            // Empty matra (inherent 'a' sound)
+                            return consonantTrans;
+                        } else {
+                            // Replace the inherent 'a' with the matra sound
+                            const baseTrans = consonantTrans.endsWith('a') ? 
+                                consonantTrans.slice(0, -1) : consonantTrans;
+                            return baseTrans + matraTrans;
+                        }
+                    }
+                }
+            }
+            
+            // Also try conjuncts + matras
+            for (let i = 0; i < hindiConjuncts.length; i++) {
+                const conjunct = hindiConjuncts[i];
+                if (letter.startsWith(conjunct)) {
+                    const remainingPart = letter.substring(conjunct.length);
+                    
+                    const matraIndex = hindiVowelMatras.indexOf(remainingPart);
+                    if (matraIndex !== -1) {
+                        const conjunctTrans = hindiConjunctTrans[i];
+                        const matraTrans = hindiVowelMatraTrans[matraIndex];
+                        
+                        if (matraIndex === 0) {
+                            return conjunctTrans;
+                        } else {
+                            const baseTrans = conjunctTrans.endsWith('a') ? 
+                                conjunctTrans.slice(0, -1) : conjunctTrans;
+                            return baseTrans + matraTrans;
+                        }
+                    }
+                }
+            }
+        }
     } else if (currentLanguage === 'gujarati') {
+        // Similar logic for Gujarati...
         const vowelIndex = gujaratiVowels.indexOf(letter);
         if (vowelIndex !== -1) return gujaratiVowelTrans[vowelIndex];
 
@@ -128,7 +181,53 @@ function getTransliteration(letter) {
 
         const conjunctIndex = gujaratiConjuncts.indexOf(letter);
         if (conjunctIndex !== -1) return gujaratiConjunctTrans[conjunctIndex];
+
+        // Handle compound letters for Gujarati
+        if (letter.length > 1) {
+            for (let i = 0; i < gujaratiConsonants.length; i++) {
+                const consonant = gujaratiConsonants[i];
+                if (letter.startsWith(consonant)) {
+                    const remainingPart = letter.substring(consonant.length);
+                    
+                    const matraIndex = gujaratiVowelMatras.indexOf(remainingPart);
+                    if (matraIndex !== -1) {
+                        const consonantTrans = gujaratiConsonantTrans[i];
+                        const matraTrans = gujaratiVowelMatraTrans[matraIndex];
+                        
+                        if (matraIndex === 0) {
+                            return consonantTrans;
+                        } else {
+                            const baseTrans = consonantTrans.endsWith('a') ? 
+                                consonantTrans.slice(0, -1) : consonantTrans;
+                            return baseTrans + matraTrans;
+                        }
+                    }
+                }
+            }
+            
+            for (let i = 0; i < gujaratiConjuncts.length; i++) {
+                const conjunct = gujaratiConjuncts[i];
+                if (letter.startsWith(conjunct)) {
+                    const remainingPart = letter.substring(conjunct.length);
+                    
+                    const matraIndex = gujaratiVowelMatras.indexOf(remainingPart);
+                    if (matraIndex !== -1) {
+                        const conjunctTrans = gujaratiConjunctTrans[i];
+                        const matraTrans = gujaratiVowelMatraTrans[matraIndex];
+                        
+                        if (matraIndex === 0) {
+                            return conjunctTrans;
+                        } else {
+                            const baseTrans = conjunctTrans.endsWith('a') ? 
+                                conjunctTrans.slice(0, -1) : conjunctTrans;
+                            return baseTrans + matraTrans;
+                        }
+                    }
+                }
+            }
+        }
     } else if (currentLanguage === 'punjabi') {
+        // Similar logic for Punjabi...
         const vowelIndex = punjabiVowels.indexOf(letter);
         if (vowelIndex !== -1) return punjabiVowelTrans[vowelIndex];
 
@@ -137,7 +236,53 @@ function getTransliteration(letter) {
 
         const conjunctIndex = punjabiConjuncts.indexOf(letter);
         if (conjunctIndex !== -1) return punjabiConjunctTrans[conjunctIndex];
+
+        // Handle compound letters for Punjabi
+        if (letter.length > 1) {
+            for (let i = 0; i < punjabiConsonants.length; i++) {
+                const consonant = punjabiConsonants[i];
+                if (letter.startsWith(consonant)) {
+                    const remainingPart = letter.substring(consonant.length);
+                    
+                    const matraIndex = punjabiVowelMatras.indexOf(remainingPart);
+                    if (matraIndex !== -1) {
+                        const consonantTrans = punjabiConsonantTrans[i];
+                        const matraTrans = punjabiVowelMatraTrans[matraIndex];
+                        
+                        if (matraIndex === 0) {
+                            return consonantTrans;
+                        } else {
+                            const baseTrans = consonantTrans.endsWith('a') ? 
+                                consonantTrans.slice(0, -1) : consonantTrans;
+                            return baseTrans + matraTrans;
+                        }
+                    }
+                }
+            }
+            
+            for (let i = 0; i < punjabiConjuncts.length; i++) {
+                const conjunct = punjabiConjuncts[i];
+                if (letter.startsWith(conjunct)) {
+                    const remainingPart = letter.substring(conjunct.length);
+                    
+                    const matraIndex = punjabiVowelMatras.indexOf(remainingPart);
+                    if (matraIndex !== -1) {
+                        const conjunctTrans = punjabiConjunctTrans[i];
+                        const matraTrans = punjabiVowelMatraTrans[matraIndex];
+                        
+                        if (matraIndex === 0) {
+                            return conjunctTrans;
+                        } else {
+                            const baseTrans = conjunctTrans.endsWith('a') ? 
+                                conjunctTrans.slice(0, -1) : conjunctTrans;
+                            return baseTrans + matraTrans;
+                        }
+                    }
+                }
+            }
+        }
     } else if (currentLanguage === 'malayalam') {
+        // Similar logic for Malayalam...
         const vowelIndex = malayalamVowels.indexOf(letter);
         if (vowelIndex !== -1) return malayalamVowelTrans[vowelIndex];
 
@@ -146,6 +291,51 @@ function getTransliteration(letter) {
 
         const conjunctIndex = malayalamConjuncts.indexOf(letter);
         if (conjunctIndex !== -1) return malayalamConjunctTrans[conjunctIndex];
+
+        // Handle compound letters for Malayalam
+        if (letter.length > 1) {
+            for (let i = 0; i < malayalamConsonants.length; i++) {
+                const consonant = malayalamConsonants[i];
+                if (letter.startsWith(consonant)) {
+                    const remainingPart = letter.substring(consonant.length);
+                    
+                    const matraIndex = malayalamVowelMatras.indexOf(remainingPart);
+                    if (matraIndex !== -1) {
+                        const consonantTrans = malayalamConsonantTrans[i];
+                        const matraTrans = malayalamVowelMatraTrans[matraIndex];
+                        
+                        if (matraIndex === 0) {
+                            return consonantTrans;
+                        } else {
+                            const baseTrans = consonantTrans.endsWith('a') ? 
+                                consonantTrans.slice(0, -1) : consonantTrans;
+                            return baseTrans + matraTrans;
+                        }
+                    }
+                }
+            }
+            
+            for (let i = 0; i < malayalamConjuncts.length; i++) {
+                const conjunct = malayalamConjuncts[i];
+                if (letter.startsWith(conjunct)) {
+                    const remainingPart = letter.substring(conjunct.length);
+                    
+                    const matraIndex = malayalamVowelMatras.indexOf(remainingPart);
+                    if (matraIndex !== -1) {
+                        const conjunctTrans = malayalamConjunctTrans[i];
+                        const matraTrans = malayalamVowelMatraTrans[matraIndex];
+                        
+                        if (matraIndex === 0) {
+                            return conjunctTrans;
+                        } else {
+                            const baseTrans = conjunctTrans.endsWith('a') ? 
+                                conjunctTrans.slice(0, -1) : conjunctTrans;
+                            return baseTrans + matraTrans;
+                        }
+                    }
+                }
+            }
+        }
     }
     return '';
 }

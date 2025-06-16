@@ -116,4 +116,50 @@ class VoiceRecognition {
 }
 
 // Export the VoiceRecognition class
-window.VoiceRecognition = VoiceRecognition; 
+window.VoiceRecognition = VoiceRecognition;
+
+/* =========================
+   Voice Recognition Initialization (Legacy Support)
+   ========================= */
+function initSpeechRecognition() {
+    if ('webkitSpeechRecognition' in window) {
+        const recognition = new webkitSpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = 'en-US';
+
+        const micButton = document.getElementById('micButton');
+        const voiceFeedback = document.getElementById('voiceFeedback');
+
+        recognition.onstart = function() {
+            micButton.classList.add('listening');
+            voiceFeedback.textContent = 'Listening...';
+        };
+
+        recognition.onresult = function(event) {
+            const spokenText = event.results[0][0].transcript.toLowerCase().trim();
+            voiceFeedback.textContent = `You said: "${spokenText}"`;
+            checkVoiceAnswer(spokenText);
+        };
+
+        recognition.onerror = function(event) {
+            voiceFeedback.textContent = 'Error occurred in recognition: ' + event.error;
+            micButton.classList.remove('listening');
+        };
+
+        recognition.onend = function() {
+            micButton.classList.remove('listening');
+        };
+
+        micButton.addEventListener('click', function() {
+            if (!isPaused && recognition) {
+                recognition.start();
+            }
+        });
+    } else {
+        const voiceFeedback = document.getElementById('voiceFeedback');
+        const micButton = document.getElementById('micButton');
+        voiceFeedback.textContent = 'Speech recognition not supported in this browser';
+        micButton.style.display = 'none';
+    }
+} 
