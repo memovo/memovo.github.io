@@ -516,7 +516,7 @@ class GoogleTTSService {
 class SpeechService {
     static async speak(text, language = 'en-US', rate = 0.8, fallbackLanguage = null) {
         // Try Google TTS first for ALL languages if API key is configured
-        if (GOOGLE_TTS_CONFIG.apiKey !== 'AIzaSyATHAEIvVHiE5h49pdIgnkYbM4GZVucRqE') {
+        if (GOOGLE_TTS_CONFIG.apiKey && GOOGLE_TTS_CONFIG.apiKey !== 'YOUR_API_KEY_HERE') {
             let targetLang = null;
             
             // Find matching language config
