@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Words in Context - Language Learning Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --background-color: #f8f9fa;
+            --card-background: #ffffff;
+            --text-color: #2c3e50;
+            --border-radius: 12px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: var(--background-color);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            padding: 20px;
+        }
+
+        .container {
+            background-color: var(--card-background);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            width: 90%;
+            max-width: 900px;
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+            margin: 0 0 0.5rem 0;
+            font-size: 2rem;
+        }
+
+        .header p {
+            color: var(--text-color);
+            margin: 0;
+            opacity: 0.8;
+        }
+
+        #languageSelector {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            background-color: white;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .back-link {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        #sentence {
+            font-size: 1.8rem;
+            text-align: center;
+            margin: 2rem 0;
+            line-height: 1.4;
+            padding: 1.5rem;
+            background-color: var(--background-color);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .foreign-word {
+            color: var(--primary-color);
+            font-weight: 600;
+            background-color: rgba(74, 144, 226, 0.1);
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        button {
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border: none;
+            border-radius: var(--border-radius);
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #optionsContainer {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .option-button {
+            font-size: 1.2rem;
+            padding: 1rem 2rem;
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            min-width: 150px;
+            box-shadow: var(--shadow);
+            color: var(--text-color);
+            font-weight: 500;
+            position: relative;
+        }
+
+        .option-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .option-button.correct {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+            color: white;
+            transform: scale(1.02);
+        }
+
+        .option-button.incorrect {
+            background-color: var(--error-color);
+            border-color: var(--error-color);
+            color: white;
+        }
+
+        .option-button .shortcut {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        #feedback {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 1.5rem 0;
+            min-height: 2em;
+            transition: all 0.15s ease;
+            padding: 1rem;
+            background-color: var(--background-color);
+            border-radius: var(--border-radius);
+        }
+
+        .correct-text {
+            color: var(--success-color);
+            background-color: rgba(46, 204, 113, 0.1);
+            border-left: 4px solid var(--success-color);
+        }
+
+        .incorrect-text {
+            color: var(--error-color);
+            background-color: rgba(231, 76, 60, 0.1);
+            border-left: 4px solid var(--error-color);
+        }
+
+        #score {
+            text-align: center;
+            font-size: 1.2rem;
+            padding: 1rem;
+            background-color: var(--background-color);
+            border-radius: var(--border-radius);
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .score-item {
+            margin: 0.5rem;
+        }
+
+        .score-number {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            #sentence {
+                font-size: 1.4rem;
+            }
+
+            .option-button {
+                font-size: 1rem;
+                padding: 0.8rem 1.5rem;
+                min-width: 120px;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            #optionsContainer {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .option-button {
+                width: 80%;
+                max-width: 300px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+
+        <select id="languageSelector">
+            <option value="hindi">Hindi</option>
+            <option value="gujarati">Gujarati</option>
+            <option value="punjabi">Punjabi</option>
+            <option value="malayalam">Malayalam</option>
+        </select>
+
+        <div class="header">
+            <h1>Learn Words in Context</h1>
+            <p>Understand the meaning of foreign words from classic stories</p>
+        </div>
+
+        <div id="sentence">Loading sentence...</div>
+
+        <div class="controls">
+            <button id="speakButton">
+                <i class="fas fa-volume-up"></i> Speak Sentence
+            </button>
+            <button id="nextSentenceButton">
+                <i class="fas fa-forward"></i> Next Sentence
+            </button>
+        </div>
+
+        <div id="optionsContainer">
+            <button class="option-button" data-index="0">
+                <span class="shortcut">1</span>
+                <span class="option-text"></span>
+            </button>
+            <button class="option-button" data-index="1">
+                <span class="shortcut">2</span>
+                <span class="option-text"></span>
+            </button>
+            <button class="option-button" data-index="2">
+                <span class="shortcut">3</span>
+                <span class="option-text"></span>
+            </button>
+        </div>
+
+        <div id="feedback"></div>
+
+        <div id="score">
+            <div class="score-item">
+                Correct: <span class="score-number" id="correctCount">0</span>
+            </div>
+            <div class="score-item">
+                Incorrect: <span class="score-number" id="incorrectCount">0</span>
+            </div>
+            <div class="score-item">
+                Streak: <span class="score-number" id="streakCount">0</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="assets/sentence-game.js"></script>
+</body>
+</html>

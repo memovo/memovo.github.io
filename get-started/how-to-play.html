@@ -228,15 +228,56 @@
 
         <div class="card">
             <h2>Game Overview</h2>
-            <p>Learn Indian Scripts is an interactive game designed to help you master reading Indian scripts through practice and repetition. The game adapts to your skill level and provides immediate feedback to help you improve.</p>
+            <p>Learn Indian Scripts offers two engaging learning modes to help you master reading Indian scripts through practice and repetition. Both games adapt to your skill level and provide immediate feedback to help you improve.</p>
             
             <div class="tip-box">
-                <strong>Pro Tip:</strong> Regular practice is key to mastering any script. Try to play for at least 10-15 minutes daily for the best results.
+                <strong>Pro Tip:</strong> Regular practice is key to mastering any script. Try alternating between both games for 10-15 minutes daily for the best results.
             </div>
         </div>
 
         <div class="card">
-            <h2>Game Levels</h2>
+            <h2>Choose Your Learning Mode</h2>
+            <div class="level-grid">
+                <div class="level-card level-1">
+                    <h3>
+                        <i class="fas fa-language level-icon"></i>
+                        Script Flashcards
+                    </h3>
+                    <p>Master individual letters and characters with interactive flashcards</p>
+                    <ul class="feature-list">
+                        <li>Progressive difficulty levels</li>
+                        <li>Voice recognition practice</li>
+                        <li>Speed-based progression</li>
+                        <li>Comprehensive reference guide</li>
+                        <li>Real-time performance tracking</li>
+                    </ul>
+                    <a href="../game.html" class="cta-button">
+                        <i class="fas fa-play"></i> Play Flashcards
+                    </a>
+                </div>
+
+                <div class="level-card level-2">
+                    <h3>
+                        <i class="fas fa-quote-left level-icon"></i>
+                        Learn Words in Context
+                    </h3>
+                    <p>Understand foreign words through entertaining stories and sentences</p>
+                    <ul class="feature-list">
+                        <li>1000+ varied sentences</li>
+                        <li>Funny stories, riddles, and quotes</li>
+                        <li>Professional speech synthesis</li>
+                        <li>Random noun selection</li>
+                        <li>Multiple choice with shortcuts</li>
+                    </ul>
+                    <a href="../sentence-game.html" class="cta-button">
+                        <i class="fas fa-play"></i> Play Context Game
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Script Flashcards - Progression Levels</h2>
             <div class="level-grid">
                 <div class="level-card level-1">
                     <h3>
@@ -289,7 +330,7 @@
         </div>
 
         <div class="card">
-            <h2>Game Controls</h2>
+            <h2>Script Flashcards - Game Controls</h2>
             <div class="controls-grid">
                 <div class="control-item">
                     <div class="control-icon">
@@ -326,25 +367,84 @@
         </div>
 
         <div class="card">
+            <h2>Learn Words in Context - Game Controls</h2>
+            <div class="controls-grid">
+                <div class="control-item">
+                    <div class="control-icon">
+                        <i class="fas fa-mouse-pointer"></i>
+                    </div>
+                    <h3>Multiple Choice</h3>
+                    <p>Click on the correct English meaning or use number keys (1, 2, 3)</p>
+                </div>
+
+                <div class="control-item">
+                    <div class="control-icon">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <h3>Audio Playback</h3>
+                    <p>Listen to mixed English and foreign language pronunciation</p>
+                </div>
+
+                <div class="control-item">
+                    <div class="control-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3>Language Selection</h3>
+                    <p>Choose from Hindi, Gujarati, Punjabi, or Malayalam</p>
+                </div>
+
+                <div class="control-item">
+                    <div class="control-icon">
+                        <i class="fas fa-forward"></i>
+                    </div>
+                    <h3>Next Sentence</h3>
+                    <p>Skip to a new sentence anytime for fresh content</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
             <h2>Progress Tracking</h2>
-            <p>The game tracks your performance through several metrics:</p>
-            <ul class="feature-list">
-                <li>Average time per letter</li>
-                <li>Correct and incorrect answers</li>
-                <li>Level progression</li>
-                <li>Overall accuracy</li>
-            </ul>
+            <p>Both games track your performance through different metrics:</p>
+            
+            <div class="level-grid">
+                <div class="level-card level-1">
+                    <h3>Script Flashcards Tracking</h3>
+                    <ul class="feature-list">
+                        <li>Average time per letter</li>
+                        <li>Level progression</li>
+                        <li>Correct/incorrect answers</li>
+                        <li>Speed improvement</li>
+                    </ul>
+                </div>
+                
+                <div class="level-card level-2">
+                    <h3>Context Game Tracking</h3>
+                    <ul class="feature-list">
+                        <li>Translation accuracy</li>
+                        <li>Vocabulary learned</li>
+                        <li>Sentence completion streaks</li>
+                        <li>Debug information panel</li>
+                    </ul>
+                </div>
+            </div>
+            
             <div class="tip-box">
-                <strong>Remember:</strong> Focus on accuracy first, then speed. It's better to take a little longer and get it right than to rush and make mistakes.
+                <strong>Remember:</strong> Focus on accuracy first, then speed. It's better to take a little longer and get it right than to rush and make mistakes. Try both games to reinforce learning from different angles!
             </div>
         </div>
 
         <div class="card" style="text-align: center;">
             <h2>Ready to Start Learning?</h2>
-            <p>Begin your journey to mastering Indian scripts today!</p>
-            <a href="../game.html" class="cta-button">
-                <i class="fas fa-play"></i> Start Playing Now
-            </a>
+            <p>Choose your preferred learning mode and begin your journey to mastering Indian scripts!</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
+                <a href="../game.html" class="cta-button">
+                    <i class="fas fa-language"></i> Script Flashcards
+                </a>
+                <a href="../sentence-game.html" class="cta-button">
+                    <i class="fas fa-quote-left"></i> Context Game
+                </a>
+            </div>
         </div>
     </div>
 </body>
